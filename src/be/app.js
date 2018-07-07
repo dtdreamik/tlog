@@ -15,7 +15,7 @@ app.use(bodyParser.json({
 models.sequelize.sync({
    // force: true
 }).then(() => {
-    app.listen(80);
+    app.listen(8001);
     app.use('/', routes);
 }).catch((err) => {
     console.log(err);

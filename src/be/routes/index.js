@@ -46,15 +46,16 @@ router.get('/api/getTradeList', function(req, res, next) {
         );
 });
 
-router.get('/api/analyseTrade', function(req, res, next) {
+router.post('/api/analyseTrade', function(req, res, next) {
 
 
 
-    analyseTrade()
+    analyseTrade(req.body)
         .then(
-            () => {
+            (data) => {
                 res.json({
-                    status: 0
+                    status: 0,
+                    data: data
                 })
             }
         );

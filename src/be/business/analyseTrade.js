@@ -1,13 +1,9 @@
 const models = require('../models');
 const {gt, lt} = models.Sequelize.Op;
 
-let timeFrames = [
-    '09:45', '10:00',  '10:30',  '11:00',  '11:30', '16:00'
-];
+let timeFrames;
 
-let store = [
-    [], [], [], [], [], []
-];
+let store;
 
 module.exports = function(data) {
 
@@ -22,25 +18,45 @@ module.exports = function(data) {
                     ['10:31', '11:30']
                 ]
             };
+
+            {"strategy":"","long_or_short":"","day_of_week":"","date_range":["2018-07-01","2018-07-07"],"time_ranges":[["20:07","22:07"]]}
      */
 
     console.log('analyse trade');
 
     let tradeLog = models['trade_log'];
 
+    let {strategy, long_or_short, day_of_week, date_range, time_ranges} = data;
     //根据时间段 创建数组 用来存储交易
-    return tradeLog.findAll({
-        where: {
 
-            entry_time: {
-                [gt]: new Date('2018-06-01'),
-                [lt]: new Date('2018-07-01')
-            }
-        }
+    let queryObj = {};
+
+    if (strategy) {
+        queryObj.entry_strategy_id = strategy;
+    }
+
+    if (long_or_short) {
+        queryObj.long_short = long_or_short;
+    }
+
+    if (day_of_week) {
+       // queryObj.day_of_week = day_of_week;
+    }
+
+    if (date_range) {
+        queryObj.entry_time = {
+            [gt]: new Date(date_range[0]),
+            [lt]: new Date(date_range[1])
+        };
+    }
+
+    return tradeLog.findAll({
+        where: queryObj
     })
         .then(function(arr) {
 
             //指定日期范围
+            initStoreAndTimeFrames(data.time_ranges);
 
             //各个时间段的  win次数   lose次数   总盈利情况
             for (let item of arr) {
@@ -49,23 +65,48 @@ module.exports = function(data) {
                 let exitTime = item['entry_time'];
                 let index = figureOutWhichTimeFrameTheTradeBelongsto(exitTime);
 
-                store[index].push(item);
-
+                if (index > -1) {
+                    store[timeFrames[index][0] + '-' + timeFrames[index][1]].push(item);
+                }
                 //console.log(Object.prototype.toString.call( item.entry_time));
             }
 
-            for (let i = 0; i < store.length; i++) {
-                let res = analyseTrade(store[i]);
-                console.log('////////////////////////' + timeFrames[i] + '////////////////////////');
-                console.log('total trade  ' + store[i].length);
+            let total = {};
+
+            for (let timeRange in store) {
+
+                let res = analyseTrade(store[timeRange]);
+                console.log('////////////////////////' + timeRange + '////////////////////////');
+                console.log('total trade  ' + store[timeRange].length);
                 console.log('win ' + res.winNum);
                 console.log('lose ' + res.loseNum);
                 console.log('profit ' + res.profit);
+
+                total[timeRange] = res;
             }
+
+            return total;
 
         }).catch(function(err) {
             console.log(err);
         });
+
+    function initStoreAndTimeFrames(time_ranges) {
+
+        timeFrames = [];
+
+        store = {};
+
+        if (!time_ranges) {
+            timeFrames.push(['09:30', '16:30']);
+            store['09:30-16:30'] = [];
+        } else {
+            for (let time_range of time_ranges) {
+                timeFrames.push([time_range[0], time_range[1]]);
+                store[time_range[0] + '-' + time_range[1]] = [];
+            }
+        }
+    }
 
     function analyseTrade(trades) {
 
@@ -98,20 +139,29 @@ module.exports = function(data) {
         for (let i = 0; i < timeFrames.length; i++) {
 
             let exitTimeDate = exitTime.getDate();
-            let dstr = exitTime.getFullYear() + '-' + '0' + (exitTime.getMonth() + 1) + '-' +
-                (exitTimeDate < 10 ? '0' +  exitTimeDate :  exitTimeDate) + 'T' + timeFrames[i] + ':00+08:00';
+
+            let newStartTime;
+            let newEndTime;
+
+            newStartTime = exitTime.getFullYear() + '-' + '0' + (exitTime.getMonth() + 1) + '-' +
+                (exitTimeDate < 10 ? '0' +  exitTimeDate :  exitTimeDate) + 'T' + timeFrames[i][0] + ':00+08:00';
+
+            newEndTime = exitTime.getFullYear() + '-' + '0' + (exitTime.getMonth() + 1) + '-' +
+                (exitTimeDate < 10 ? '0' +  exitTimeDate :  exitTimeDate) + 'T' + timeFrames[i][1] + ':00+08:00';
 
             //console.log('dstr ' +  dstr);
-            let newDate = new Date(dstr);
+            newStartTime = new Date(newStartTime);
+            newEndTime = new Date(newEndTime);
 
             //console.log(newDate);
 
-            if (exitTime < newDate) {
+            if (exitTime <= newEndTime && exitTime >= newStartTime) {
                 return i;
             }
+
         }
 
-        throw Error('交易时间错误');
+        return -1;
     }
 };
 

@@ -21,19 +21,51 @@ class TimeRelatedForm extends React.Component {
                 return;
             }
 
+            let {strategy, long_or_short, day_of_week, date_range, time_range1,
+                time_range2, time_range3, time_range4, time_range5, time_range6,
+                time_range7, time_range8, time_range9, time_range10} = fieldsValue;
+
+
+            let date_rangeArr;
+            let time_ranges = [];
+
+            if (date_range) {
+                date_rangeArr = [date_range[0].format('YYYY-MM-DD'), date_range[1].format('YYYY-MM-DD')];
+            }
+
+            if (time_range1 && time_range2) {
+                time_ranges.push([time_range1.format('HH:mm'), time_range2.format('HH:mm')]);
+            }
+
+            if (time_range3 && time_range4) {
+                time_ranges.push([time_range3.format('HH:mm'), time_range4.format('HH:mm')]);
+            }
+
+            if (time_range5 && time_range6) {
+                time_ranges.push([time_range5.format('HH:mm'), time_range6.format('HH:mm')]);
+            }
+
+            if (time_range7 && time_range8) {
+                time_ranges.push([time_range7.format('HH:mm'), time_range8.format('HH:mm')]);
+            }
+
+            if (time_range9 && time_range10) {
+                time_ranges.push([time_range9.format('HH:mm'), time_range10.format('HH:mm')]);
+            }
+
             //strategy  long or short  day of week  date range  time period1  time period2  time period3
+
+
+
             let data = {
-                strategy: 1,
-                long_short: '',
-                day_of_week: 1,
-                date_range: ['2018-7-2 18:00', ''],
-                time_ranges: [
-                    ['09:30', '10:30'],
-                    ['10:31', '11:30']
-                ]
+                strategy,
+                long_or_short,
+                day_of_week,
+                date_range: date_rangeArr || '',
+                time_ranges: time_ranges.length > 0 ? time_ranges : ''
             };
 
-            axios.post('/analyseTrade', data,
+            axios.post('/api/analyseTrade', data,
                 {
                     headers: {
                         'Content-type': 'application/json'
@@ -46,36 +78,6 @@ class TimeRelatedForm extends React.Component {
                 .catch(function (error) {
                     console.log(error);
                 });
-
-            /*
-                {
-                    strategy: strategy,
-                    long_short: long_short,
-                    day_of_week: 1,
-                    date_range: ['2018-7-2 18:00', ''],
-                    time_ranges: [
-                        ['']
-                    ]
-                }
-            /*
-            // Should format date value before submit.
-            const rangeValue = fieldsValue['range-picker'];
-            const rangeTimeValue = fieldsValue['range-time-picker'];
-            const values = {
-                ...fieldsValue,
-                'date-picker': fieldsValue['date-picker'].format('YYYY-MM-DD'),
-                'date-time-picker': fieldsValue['date-time-picker'].format('YYYY-MM-DD HH:mm:ss'),
-                'month-picker': fieldsValue['month-picker'].format('YYYY-MM'),
-                'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
-                'range-time-picker': [
-                    rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
-                    rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
-                ],
-                'time-picker': fieldsValue['time-picker'].format('HH:mm:ss'),
-            };
-            ;console.log('Received values of form: ', values)
-            */
-            console.log('Received values of form: ', fieldsValue)
         });
     }
     render() {
@@ -105,7 +107,7 @@ class TimeRelatedForm extends React.Component {
                     <Col span={5}>
                         <FormItem label="strategy" {...formItemLayout}>
                             {getFieldDecorator('strategy', {
-                                initialValue: 'all'
+                                initialValue: ''
                             })(
                                 <Select style={{ width: 180 }} >
                                     <Option value="">all</Option>
@@ -118,8 +120,8 @@ class TimeRelatedForm extends React.Component {
                     </Col>
                     <Col span={4}>
                         <FormItem label="long or short" {...formItemLayout}>
-                            {getFieldDecorator('long-or-short', {
-                                initialValue: 'all'
+                            {getFieldDecorator('long_or_short', {
+                                initialValue: ''
                             })(
                                 <Select style={{ width: 80 }} >
                                     <Option value="">all</Option>
@@ -131,8 +133,8 @@ class TimeRelatedForm extends React.Component {
                     </Col>
                     <Col span={4}>
                         <FormItem label="day of week" {...formItemLayout}>
-                            {getFieldDecorator('day-of-week', {
-                                initialValue: 'all'
+                            {getFieldDecorator('day_of_week', {
+                                initialValue: ''
                             })(
                                 <Select style={{ width: 60 }} >
                                     <Option value="">all</Option>
@@ -152,7 +154,7 @@ class TimeRelatedForm extends React.Component {
                             {...formItemLayout}
                             label="date range"
                         >
-                            {getFieldDecorator('range-picker')(
+                            {getFieldDecorator('date_range')(
                                 <RangePicker />
                             )}
                         </FormItem>
@@ -163,55 +165,55 @@ class TimeRelatedForm extends React.Component {
                         <FormItem label="time range" {...formItemLayout}>
                             <Row>
                                 <Col>
-                                    {getFieldDecorator('time-picker1')(
+                                    {getFieldDecorator('time_range1')(
                                         <TimePicker format={format}/>
                                     )}
                                     -----
-                                    {getFieldDecorator('time-picker2')(
+                                    {getFieldDecorator('time_range2')(
                                         <TimePicker format={format}/>
                                     )}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    {getFieldDecorator('time-picker3')(
+                                    {getFieldDecorator('time_range3')(
                                         <TimePicker format={format}/>
                                     )}
                                     -----
-                                    {getFieldDecorator('time-picker4')(
+                                    {getFieldDecorator('time_range4')(
                                         <TimePicker format={format}/>
                                     )}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    {getFieldDecorator('time-picker5')(
+                                    {getFieldDecorator('time_range5')(
                                         <TimePicker format={format}/>
                                     )}
                                     -----
-                                    {getFieldDecorator('time-picker6')(
+                                    {getFieldDecorator('time_range6')(
                                         <TimePicker format={format}/>
                                     )}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    {getFieldDecorator('time-picker7')(
+                                    {getFieldDecorator('time_range7')(
                                         <TimePicker format={format}/>
                                     )}
                                     -----
-                                    {getFieldDecorator('time-picker8')(
+                                    {getFieldDecorator('time_range8')(
                                         <TimePicker format={format}/>
                                     )}
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
-                                    {getFieldDecorator('time-picker9')(
+                                    {getFieldDecorator('time_range9')(
                                         <TimePicker format={format}/>
                                     )}
                                     -----
-                                    {getFieldDecorator('time-picker10')(
+                                    {getFieldDecorator('time_range10')(
                                         <TimePicker format={format}/>
                                     )}
                                 </Col>

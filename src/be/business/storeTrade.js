@@ -24,10 +24,11 @@ function extractData(tradeHTML) {
         let symbol = tds[0].innerHTML.trim();
         //2018-05-09, 09:56:09
         let rawDate = tds[1].innerHTML.trim();
+        console.log('rawDate ' + rawDate);
         rawDate = rawDate.split(',');
 
-        let time = new Date(rawDate[0].trim() + 'T' + rawDate[1].trim() + '+00:00');
-
+        let time = new Date(rawDate[0].trim() + 'T' + rawDate[1].trim());
+        //let time = new Date(rawDate[0].trim());
         let qty = parseInt(tds[2].innerHTML.replace(/,/g, '').trim());
         let price = parseFloat(tds[3].innerHTML.trim());
         let com = parseFloat(tds[6].innerHTML.trim());

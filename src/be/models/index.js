@@ -6,7 +6,10 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
     host: dbConfig.host,
     dialect: dbConfig.dialect,
-    timezone: '+08:00'
+    timezone: '+08:00',
+    dialectOptions: {
+        useUTC: false //for reading from database
+    },
 });
 
 const db = {};
