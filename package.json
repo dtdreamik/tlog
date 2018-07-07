@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "entry": {
+    "index": "./index.js"
+  },
+  "dependencies": {
+    "antd": "^3.6.2",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dom-parser": "^0.1.5",
+    "express": "^4.16.3",
+    "mysql2": "^1.5.3",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "sequelize": "^4.37.10"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-antd": "^0.5.1",
+    "babel-plugin-import": "^1.7.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "less-loader": "^4.1.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.3"
+  }
+}
