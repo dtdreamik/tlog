@@ -1,20 +1,24 @@
-import '../../css/pages/analyse.css';
-import axios from 'axios';
-import { Form, DatePicker, Row, Col, TimePicker, Button, Select } from 'antd';
-const Option = Select.Option;
-const FormItem = Form.Item;
-const MonthPicker = DatePicker.MonthPicker;
-const RangePicker = DatePicker.RangePicker;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Layout } from 'antd';
+import axios from "axios/index";
 
-class TimeRelatedForm extends React.Component {
+import Header from  '../components/header/header';
+import Navigator from  '../components/navigator/navigator';
+import AnalyseForm from '../components/analyseForm/analyseForm';
+//import AnalyseRes from '../components/analyseRes/analyseRes';
 
-    constructor() {
-        super();
+
+class App extends React.Component {
+
+    componentDidUpdate() {
+
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log('handleSubmit');
         this.props.form.validateFields((err, fieldsValue) => {
 
             if (err) {
@@ -55,8 +59,6 @@ class TimeRelatedForm extends React.Component {
 
             //strategy  long or short  day of week  date range  time period1  time period2  time period3
 
-
-
             let data = {
                 strategy,
                 long_or_short,
@@ -80,177 +82,90 @@ class TimeRelatedForm extends React.Component {
                 });
         });
     }
-    render() {
-        const { getFieldDecorator } = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
-            },
-        };
-        const config = {
-            rules: [{ type: 'object', required: false, message: 'Please select time!' }],
-        };
-        const rangeConfig = {
-            rules: [{ type: 'array', required: false, message: 'Please select time!' }],
-        };
 
-        const format = 'HH:mm';
+    constructor(props) {
+        super(props);
+        this.state = {
+            analyseRes: {
+                '09:30-10:30': {
+                    analyseRes: {
+                        total_num: 100,
+                        win_num: 40,
+                        lose_num: 60,
+                        total_profit: 1000,
+                        win_rate: 40
+                    },
+                    trades: [
+                        {
+                            key: '1',
+                            symbol: 'AA',
+                            long_short: 'short',
+                            profit: -14.14,
+                            entry_time: '2018-04-23 09:35:35',
+                            entry_qty: -100,
+                            entry_price: 54.07,
+                            exit_time: '2018-04-23 09:37:30',
+                            exit_qty: 100,
+                            exit_price: 54.19,
+                            fees: -2.14
+                        }
+                    ]
+                },
+                '10:31-11:00': {
+                    analyseRes: {
+                        total_num: 100,
+                        win_num: 40,
+                        lose_num: 60,
+                        total_profit: 1000,
+                        win_rate: 40
+                    },
+                    trades: [
+                        {
+                            key: '1',
+                            symbol: 'AA',
+                            long_short: 'short',
+                            profit: -14.14,
+                            entry_time: '2018-04-23 09:35:35',
+                            entry_qty: -100,
+                            entry_price: 54.07,
+                            exit_time: '2018-04-23 09:37:30',
+                            exit_qty: 100,
+                            exit_price: 54.19,
+                            fees: -2.14
+                        }
+                    ]
+                }
+            }
+        };
+    }
 
+    render () {
         return (
-            <Form onSubmit={this.handleSubmit} className = "analyseForm">
-                <Row gutter={24}>
-                    <Col span={5}>
-                        <FormItem label="strategy" {...formItemLayout}>
-                            {getFieldDecorator('strategy', {
-                                initialValue: ''
-                            })(
-                                <Select style={{ width: 180 }} >
-                                    <Option value="">all</Option>
-                                    <Option value="jack">opening range short</Option>
-                                    <Option value="lucy">flat top break</Option>
-                                    <Option value="Yiminghe">pull back long</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={4}>
-                        <FormItem label="long or short" {...formItemLayout}>
-                            {getFieldDecorator('long_or_short', {
-                                initialValue: ''
-                            })(
-                                <Select style={{ width: 80 }} >
-                                    <Option value="">all</Option>
-                                    <Option value="1">long</Option>
-                                    <Option value="2">short</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={4}>
-                        <FormItem label="day of week" {...formItemLayout}>
-                            {getFieldDecorator('day_of_week', {
-                                initialValue: ''
-                            })(
-                                <Select style={{ width: 60 }} >
-                                    <Option value="">all</Option>
-                                    <Option value="1">1</Option>
-                                    <Option value="2">2</Option>
-                                    <Option value="3" >3</Option>
-                                    <Option value="4">4</Option>
-                                    <Option value="5">5</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span = {5}>
-                        <FormItem
-                            {...formItemLayout}
-                            label="date range"
-                        >
-                            {getFieldDecorator('date_range')(
-                                <RangePicker />
-                            )}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span = {8}>
-                        <FormItem label="time range" {...formItemLayout}>
-                            <Row>
-                                <Col>
-                                    {getFieldDecorator('time_range1')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                    -----
-                                    {getFieldDecorator('time_range2')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {getFieldDecorator('time_range3')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                    -----
-                                    {getFieldDecorator('time_range4')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {getFieldDecorator('time_range5')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                    -----
-                                    {getFieldDecorator('time_range6')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {getFieldDecorator('time_range7')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                    -----
-                                    {getFieldDecorator('time_range8')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {getFieldDecorator('time_range9')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                    -----
-                                    {getFieldDecorator('time_range10')(
-                                        <TimePicker format={format}/>
-                                    )}
-                                </Col>
-                            </Row>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <FormItem
-                        wrapperCol={{
-                            xs: { span: 24, offset: 0 },
-                            sm: { span: 16, offset: 8 },
-                        }}
-                    >
-                        <Button type="primary" htmlType="submit">Search</Button>
-                    </FormItem>
-                </Row>
-            </Form>
-        );
+            <Layout>
+                <Header />
+                <Layout>
+                    <Navigator target={'index'} />
+                    <Layout style={{ paddingLeft: '5px' }}>
+                        <AnalyseForm onHandleSubmit={this.handleSubmit} />
+                        {/*
+                        <AnalyseRes />
+                        */}
+                    </Layout>
+                </Layout>
+            </Layout>
+        )
     }
 }
 
-const WrappedTimeRelatedForm = Form.create()(TimeRelatedForm);
+ReactDOM.render(<App />, document.getElementById('root'));
 
 
-import { Layout, Table, Icon, Divider } from 'antd';
-import Header from  '../components/header/header';
-import Navigator from  '../components/navigator/navigator';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
+/*
 
 const columns = [{
     title: 'symbol',
     dataIndex: 'symbol',
     key: 'symbol'
-
 }, {
     title: 'long_short',
     dataIndex: 'long_short',
@@ -434,6 +349,8 @@ const analyseResData = [{
 ReactDOM.render(
     <App />
     , document.getElementById('root'));
+
+    */
 
 
 

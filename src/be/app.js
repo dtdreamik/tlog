@@ -15,6 +15,7 @@ app.use(bodyParser.json({
 models.sequelize.sync({
    // force: true
 }).then(() => {
+    console.log('服务启动成功');
     app.listen(8001);
     app.use('/', routes);
 }).catch((err) => {
