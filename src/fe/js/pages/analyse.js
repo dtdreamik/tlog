@@ -6,7 +6,7 @@ import axios from "axios/index";
 import Header from  '../components/header/header';
 import Navigator from  '../components/navigator/navigator';
 import AnalyseForm from '../components/analyseForm/analyseForm';
-//import AnalyseRes from '../components/analyseRes/analyseRes';
+import AnalyseRes from '../components/analyseRes/analyseRes';
 
 
 class App extends React.Component {
@@ -147,9 +147,7 @@ class App extends React.Component {
                     <Navigator target={'index'} />
                     <Layout style={{ paddingLeft: '5px' }}>
                         <AnalyseForm onHandleSubmit={this.handleSubmit} />
-                        {/*
                         <AnalyseRes />
-                        */}
                     </Layout>
                 </Layout>
             </Layout>

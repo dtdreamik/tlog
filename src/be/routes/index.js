@@ -48,8 +48,6 @@ router.get('/api/getTradeList', function(req, res, next) {
 
 router.post('/api/analyseTrade', function(req, res, next) {
 
-
-
     analyseTrade(req.body)
         .then(
             (data) => {
