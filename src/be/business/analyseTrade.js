@@ -18,8 +18,6 @@ module.exports = function(data) {
                     ['10:31', '11:30']
                 ]
             };
-
-            {"strategy":"","long_or_short":"","day_of_week":"","date_range":["2018-07-01","2018-07-07"],"time_ranges":[["20:07","22:07"]]}
      */
 
     console.log('analyse trade');
@@ -43,15 +41,20 @@ module.exports = function(data) {
        // queryObj.day_of_week = day_of_week;
     }
 
+    console.log(date_range[1]);
+
     if (date_range) {
         queryObj.entry_time = {
             [gt]: new Date(date_range[0]),
-            [lt]: new Date(date_range[1])
+            [lt]: new Date(date_range[1] + ' 23:00:00')
         };
     }
 
     return tradeLog.findAll({
-        where: queryObj
+        where: queryObj,
+        order: [
+            'entry_time'
+        ]
     })
         .then(function(arr) {
 
@@ -63,7 +66,7 @@ module.exports = function(data) {
                 item = item.toJSON();
 
                 let exitTime = item['entry_time'];
-                let index = figureOutWhichTimeFrameTheTradeBelongsto(exitTime);
+                let index = figureOutTimeFrameWhichTheTradeBelongsTo(exitTime);
 
                 if (index > -1) {
                     store[timeFrames[index][0] + '-' + timeFrames[index][1]].push(item);
@@ -82,7 +85,10 @@ module.exports = function(data) {
                 console.log('lose ' + res.loseNum);
                 console.log('profit ' + res.profit);
 
-                total[timeRange] = res;
+                total[timeRange] = {
+                    analyseRes: res,
+                    trades: store[timeRange]
+                };
             }
 
             return total;
@@ -123,18 +129,18 @@ module.exports = function(data) {
             } else {
                 loseNum++;
             }
-
             profit += trade.profit;
         }
-
         return {
-            winNum,
-            loseNum,
-            profit
+            totalNum,
+            win: winNum,
+            lose: loseNum,
+            totalProfit: profit,
+            rate: winNum / totalNum * 100
         }
     }
 
-    function figureOutWhichTimeFrameTheTradeBelongsto(exitTime) {
+    function figureOutTimeFrameWhichTheTradeBelongsTo(exitTime) {
 
         for (let i = 0; i < timeFrames.length; i++) {
 

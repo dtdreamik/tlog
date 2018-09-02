@@ -56,6 +56,10 @@ router.post('/api/analyseTrade', function(req, res, next) {
                     data: data
                 })
             }
+        ).catch(
+            (err) => {
+                console.error(err);
+            }
         );
 });
 

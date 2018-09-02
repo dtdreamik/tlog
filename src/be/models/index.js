@@ -8,7 +8,7 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passw
     dialect: dbConfig.dialect,
     timezone: '+08:00',
     dialectOptions: {
-        useUTC: false //for reading from database
+        useUTC: true //for reading from database
     },
 });
 

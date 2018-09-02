@@ -37,9 +37,11 @@ const tradesColumns = [{
 }, {
     title: 'profit',
     dataIndex: 'profit',
+    sorter: (a, b) => a.profit - b.profit
 }, {
     title: 'entry_time',
     dataIndex: 'entry_time',
+    sorter: (a, b) => new Date(a.entry_time) - new Date(b.entry_time)
 }, {
     title: 'exit_time',
     dataIndex: 'exit_time',
@@ -84,8 +86,8 @@ const tradesData = [{
 
 class AnalyseRes extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
 
     render() {
@@ -96,16 +98,23 @@ class AnalyseRes extends React.Component {
                 marginTop: '10px',
                 paddingLeft: '10px'
             }}>
-                <div>
-                    <h1 style={{
-                    textAlign: 'center'
-                    }}>
-                        09:30 - 10:00
-                    </h1>
-                </div>
-                <Table bordered = "true" pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={data} size="middle" />
-                <Table bordered = "true" pagination = {{position: 'none'}} columns={tradesColumns} dataSource={tradesData} size="middle" />
-
+                {
+                    Object.keys(this.props.analyseData).map((key) => {
+                        console.log('for');
+                        console.log('trades length ' + this.props.analyseData[key].trades.length);
+                        return (
+                            <div>
+                            <h1 style={{
+                                textAlign: 'center'
+                            }}>
+                                {key}
+                            </h1>
+                            <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseData[key].analyseRes]} size="middle" />
+                            <Table bordered ={true} pagination = {{position: 'none'}} pagination={{ pageSize: 5000 }}  columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
+                            </div>
+                        )
+                    })
+                }
             </div>
         );
     }

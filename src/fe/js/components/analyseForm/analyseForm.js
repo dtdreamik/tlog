@@ -11,6 +11,11 @@ class AnalyseForm extends React.Component {
         super();
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.onHandleSubmit(this.props.form);
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -33,7 +38,7 @@ class AnalyseForm extends React.Component {
         const format = 'HH:mm';
 
         return (
-            <Form onSubmit={this.props.onHandleSubmit} className = "analyseForm" style={{
+            <Form onSubmit={this.handleSubmit} className = "analyseForm" style={{
                 background: 'white',
                 paddingTop: '20px'
             }}>

@@ -15,11 +15,10 @@ class App extends React.Component {
 
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+    handleSubmit = (formObj) => {
 
         console.log('handleSubmit');
-        this.props.form.validateFields((err, fieldsValue) => {
+        formObj.validateFields((err, fieldsValue) => {
 
             if (err) {
                 return;
@@ -73,9 +72,13 @@ class App extends React.Component {
                         'Content-type': 'application/json'
                     }
                 })
-                .then(function (response) {
+                .then((response) => {
+                    console.log(response.data);
+                    console.log(response.data.data);
 
-                    this.setState(response.data);
+                    this.setState({
+                        analyseRes: response.data.data
+                    });
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -89,11 +92,12 @@ class App extends React.Component {
             analyseRes: {
                 '09:30-10:30': {
                     analyseRes: {
-                        total_num: 100,
-                        win_num: 40,
-                        lose_num: 60,
-                        total_profit: 1000,
-                        win_rate: 40
+                        key: 1,
+                        totalNum: 100,
+                        win: 40,
+                        lose: 60,
+                        totalProfit: 1000,
+                        rate: 40
                     },
                     trades: [
                         {
@@ -113,11 +117,12 @@ class App extends React.Component {
                 },
                 '10:31-11:00': {
                     analyseRes: {
-                        total_num: 100,
-                        win_num: 40,
-                        lose_num: 60,
-                        total_profit: 1000,
-                        win_rate: 40
+                        key: 2,
+                        totalNum: 100,
+                        win: 40,
+                        lose: 60,
+                        totalProfit: 1000,
+                        rate: 40
                     },
                     trades: [
                         {
@@ -141,13 +146,13 @@ class App extends React.Component {
 
     render () {
         return (
-            <Layout>
+            <Layout style={{paddingBottom: '50px'}}>
                 <Header />
                 <Layout>
                     <Navigator target={'index'} />
                     <Layout style={{ paddingLeft: '5px' }}>
                         <AnalyseForm onHandleSubmit={this.handleSubmit} />
-                        <AnalyseRes />
+                        <AnalyseRes analyseData={this.state.analyseRes}/>
                     </Layout>
                 </Layout>
             </Layout>
