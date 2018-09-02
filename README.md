@@ -14,3 +14,7 @@
 
        /************fe compile command**************/
            npx
+
+
+           mv tlog/src/be/config/settings.js ../
+           rm -rf tlog

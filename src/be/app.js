@@ -1,7 +1,9 @@
 const express = require('express');
+const compression = require('compression')
 const routes = require('./routes');
 const path = require('path');
 const app = express();
+app.use(compression());
 app.use('/page', express.static(__dirname + '/views'));
 app.use('/static', express.static(path.resolve(__dirname, '../', '../', 'dist')));
 const bodyParser = require('body-parser');
