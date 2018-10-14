@@ -1,5 +1,6 @@
 /************node**************/
-       
+           http://localhost:8001/page/index.html
+
            local 启动
            sudo node src/be/app.js
        

@@ -149,10 +149,12 @@ module.exports = function(data) {
             let newStartTime;
             let newEndTime;
 
-            newStartTime = exitTime.getFullYear() + '-' + '0' + (exitTime.getMonth() + 1) + '-' +
+            newStartTime = exitTime.getFullYear() + '-' +
+                ((exitTime.getMonth() + 1) > 9 ? '' : '0') + (exitTime.getMonth() + 1) + '-' +
                 (exitTimeDate < 10 ? '0' +  exitTimeDate :  exitTimeDate) + 'T' + timeFrames[i][0] + ':00+08:00';
 
-            newEndTime = exitTime.getFullYear() + '-' + '0' + (exitTime.getMonth() + 1) + '-' +
+            newEndTime = exitTime.getFullYear() + '-' +
+                ((exitTime.getMonth() + 1) > 9 ? '' : '0') + (exitTime.getMonth() + 1) + '-' +
                 (exitTimeDate < 10 ? '0' +  exitTimeDate :  exitTimeDate) + 'T' + timeFrames[i][1] + ':00+08:00';
 
             //console.log('dstr ' +  dstr);
