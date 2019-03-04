@@ -1,0 +1,63 @@
+.ant-drawer-title {
+    text-align: center;
+    font-size: 35px;
+    color: #ceeaea;
+}
+
+.ant-drawer-header {
+    background-color: #a576ef;
+}
+
+.trade-review-container li {
+    display: flex;
+    flex-direction: row;
+}
+
+.trade-review-head {
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #0aa5ba;
+}
+
+.trade-review-col {
+    border: 1px solid black;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    margin-right:-1px;
+    margin-bottom:-1px;
+    flex: 1
+}
+
+.trade-review-entry, .trade-review-exit {
+    background-color: #668b90;
+}
+
+.scale-in, .scale-out {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.scale-trades {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.scale-item {
+    flex: 1;
+    display: flex;
+}
+
+.edit-ico {
+    float: right;
+}
+
+.half {
+    width: 50%
+}
+
+.sixth {
+    width: 16.6%
+}
