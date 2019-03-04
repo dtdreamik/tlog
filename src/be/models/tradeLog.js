@@ -1,3 +1,5 @@
+const moment = require('moment');
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -5,8 +7,18 @@ module.exports = (sequelize, DataTypes) => {
         symbol: DataTypes.STRING,
         long_short: DataTypes.STRING,
         profit: DataTypes.DOUBLE,
-        entry_time: DataTypes.DATE,
-        exit_time: DataTypes.DATE,
+        entry_time: {
+            type: DataTypes.DATE,
+            get() {
+                return moment(this.getDataValue('entry_time')).format(DATE_FORMAT);
+            }
+        },
+        exit_time: {
+            type: DataTypes.DATE,
+            get() {
+                return moment(this.getDataValue('exit_time')).format(DATE_FORMAT);
+            }
+        },
         entry_qty: DataTypes.INTEGER,
         entry_price: DataTypes.DOUBLE,
         exit_qty: DataTypes.INTEGER,
@@ -41,9 +53,6 @@ module.exports = (sequelize, DataTypes) => {
         models['trade_log'].hasMany(models['scale_in']);
         models['trade_log'].hasMany(models['scale_out']);
 
-       // models['trade_log'].belongsTo(models['entry_strategy']);
-
-       // models['trade_log'].belongsTo(models['exit_strategy']);
     };
 
     return TradeLog;

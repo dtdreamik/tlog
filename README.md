@@ -1,21 +1,26 @@
 /************node**************/
-           http://localhost:8001/page/index.html
+http://localhost:8001/page/index.html
 
-           local 启动
-           sudo node src/be/app.js
-       
-           prd 启动
-            forever start -l forever.log -a -o out.log -e err.log tlog/src/be/app.js
+local 启动
+sudo node src/be/app.js
 
-            prd部署
+prd 启动
+forever start -l forever.log -a -o out.log -e err.log tlog/src/be/app.js
 
-            数据库配置文件
-                mv src/be/config/settings.js ../
-                mv settings.js tlog/src/be/config/
+prd部署
 
-       /************fe compile command**************/
-           npx
+数据库配置文件
+    mv src/be/config/settings.js ../
+    mv settings.js tlog/src/be/config/
+
+/************fe compile command**************/
+   npx
+   mv tlog/src/be/config/settings.js ../
+   rm -rf tlog
 
 
-           mv tlog/src/be/config/settings.js ../
-           rm -rf tlog
+/************mysql**************/
+初始化
+mysql -u username -p
+CREATE DATABASE tlog;
+

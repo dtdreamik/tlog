@@ -142,6 +142,8 @@ module.exports = function(data) {
 
     function figureOutTimeFrameWhichTheTradeBelongsTo(exitTime) {
 
+        exitTime = new Date(exitTime);
+
         for (let i = 0; i < timeFrames.length; i++) {
 
             let exitTimeDate = exitTime.getDate();

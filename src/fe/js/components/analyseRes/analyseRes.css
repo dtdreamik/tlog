@@ -1,0 +1,15 @@
+.trade-review-col {
+    display: inline-block;
+    width: 33%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.scale-in, .scale-out {
+    display: inline-block;
+    width: 50%
+}
+
+.edit-ico {
+    float: right;
+}

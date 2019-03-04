@@ -4,7 +4,7 @@ module.exports = {
         add: './src/fe/js/pages/add.js',
         analyse: './src/fe/js/pages/analyse.js'
     },
-   // mode: 'development',
+    mode: 'development',
     module: {
         rules: [
             {

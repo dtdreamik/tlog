@@ -4,12 +4,13 @@
     "index": "./index.js"
   },
   "dependencies": {
-    "antd": "^3.6.2",
+    "antd": "^3.13.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "dom-parser": "^0.1.5",
     "express": "^4.16.3",
+    "moment": "^2.23.0",
     "mysql2": "^1.5.3",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

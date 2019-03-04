@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Layout } from 'antd';
 import axios from "axios/index";
+import "antd/dist/antd.css";
 
 import Header from  '../components/header/header';
 import Navigator from  '../components/navigator/navigator';

@@ -14,12 +14,27 @@ app.use(bodyParser.json({
     limit: '50mb'
 }));
 
+let force = false;
+
 models.sequelize.sync({
-    //force: true
+    force: force
 }).then(() => {
     console.log('服务启动成功');
     app.listen(8001);
     app.use('/', routes);
+
+    if (force) {
+
+        //初始化entryStrategy  exitStrategy表数据 给个默认值 要不插入tradeLog会报:a foreign key constraint fails
+
+        models['entry_strategy'].create({
+            name: 'entry_strategy'
+        });
+
+        models['exit_strategy'].create({
+            name: 'exit_strategy'
+        });
+    }
 }).catch((err) => {
     console.log(err);
     console.error('同步数据库出错');

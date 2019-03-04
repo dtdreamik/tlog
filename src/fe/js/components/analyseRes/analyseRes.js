@@ -1,5 +1,6 @@
 import React from "react";
-import { Table } from 'antd';
+import { Drawer, Table, Icon } from 'antd';
+import "./analyseRes.css";
 
 const analyseResColumns = [{
     title: 'total num',
@@ -88,7 +89,17 @@ class AnalyseRes extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            visible: false
+        };
     }
+
+    onClose = () => {
+        this.setState({
+            visible: false,
+        });
+    };
 
     render() {
         //total num    win    lose    total profit       rate
@@ -110,7 +121,106 @@ class AnalyseRes extends React.Component {
                                 {key}
                             </h1>
                             <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseData[key].analyseRes]} size="middle" />
-                            <Table bordered ={true} pagination = {{position: 'none'}} pagination={{ pageSize: 5000 }}  columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
+                            <Table bordered ={true} pagination = {{position: 'none'}} pagination={{ pageSize: 5000 }}
+                                   onRow={(record) => {
+                                       return {
+                                           onClick: (event) => {
+                                               this.setState({
+                                                   visible: true
+                                               });
+                                           }      // 点击行
+                                       };
+                                   }}
+                                   columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
+
+                                <Drawer
+                                    title="Trade Review"
+                                    width={1000}
+                                    onClose={this.onClose}
+                                    visible={this.state.visible}
+                                    style={{
+                                        overflow: 'auto',
+                                        height: 'calc(100% - 108px)',
+                                        paddingBottom: '108px',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: '100%'
+                                        }}
+                                    >
+                                        <ul>
+                                            <li>
+                                                <div className="trade-review-col">symbol</div>
+                                                <div className="trade-review-col">long_short</div>
+                                                <div className="trade-review-col">profit</div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">jd</div>
+                                                <div className="trade-review-col">long</div>
+                                                <div className="trade-review-col">100</div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">entry</div>
+                                                <div className="trade-review-col">exit</div>
+                                            </li>
+                                            <li>
+                                                <div className="scale-in">
+                                                    <div className="trade-review-col">entry_date</div>
+                                                    <div className="trade-review-col">entry_qty</div>
+                                                    <div className="trade-review-col">entry_price</div>
+                                                </div>
+                                                <div className="scale-in">
+                                                    <div className="trade-review-col">exit_date</div>
+                                                    <div className="trade-review-col">exit_qty</div>
+                                                    <div className="trade-review-col">exit_price</div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div className="scale-in">
+                                                    <div className="trade-review-col">2018-04-02 09:30</div>
+                                                    <div className="trade-review-col">100</div>
+                                                    <div className="trade-review-col">50</div>
+                                                    <div className="trade-review-col">2018-04-02 09:30</div>
+                                                    <div className="trade-review-col">100</div>
+                                                    <div className="trade-review-col">40</div>
+                                                </div>
+                                                <div className="scale-out">
+                                                    <div className="trade-review-col">2018-04-02 09:30</div>
+                                                    <div className="trade-review-col">100</div>
+                                                    <div className="trade-review-col">50</div>
+                                                    <div className="trade-review-col">2018-04-02 09:30</div>
+                                                    <div className="trade-review-col">100</div>
+                                                    <div className="trade-review-col">40</div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">stop price</div>
+                                                <div className="trade-review-col">target price</div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">
+                                                    40
+                                                    <span className="edit-ico"><Icon type="edit" /></span>
+
+                                                </div>
+                                                <div className="trade-review-col">50<Icon type="edit" /></div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">notes</div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">notes<Icon type="edit" /></div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">trade img</div>
+                                            </li>
+                                            <li>
+                                                <div className="trade-review-col">trade img<Icon type="edit" /></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </Drawer>
                             </div>
                         )
                     })

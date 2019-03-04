@@ -1,9 +1,11 @@
+
 import { Layout, Input, Button } from 'antd';
 import Header from  '../components/header/header';
 import Navigator from  '../components/navigator/navigator';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import "antd/dist/antd.css";
 
 const { TextArea } = Input;
 const { Content } = Layout;
@@ -63,6 +65,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-
 
