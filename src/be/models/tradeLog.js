@@ -32,11 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         },
         fees: DataTypes.DOUBLE,
-        entry_notes: {
-            type: DataTypes.STRING,
-            defaultValue: ''
-        },
-        exit_notes: {
+        notes: {
             type: DataTypes.STRING,
             defaultValue: ''
         },

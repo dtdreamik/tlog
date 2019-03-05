@@ -5,7 +5,6 @@ module.exports = function() {
 
     let tradeLog = models['trade_log'];
 
-
     return tradeLog.findAll()
         .then(function(arr) {
 

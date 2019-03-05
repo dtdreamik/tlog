@@ -82,16 +82,16 @@ class Index extends React.Component {
                     <li>
                         <div className="trade-review-col">
                             40
-                            <span className="edit-ico"><Icon type="edit" /></span>
+                            <span className="edit-ico"></span>
 
                         </div>
-                        <div className="trade-review-col">50<Icon type="edit" /></div>
+                        <div className="trade-review-col">50</div>
                     </li>
                     <li>
                         <div className="trade-review-col trade-review-head">notes</div>
                     </li>
-                    <li>
-                        <div className="trade-review-col">notes<Icon type="edit" /></div>
+                    <li>Id
+                        <div className="trade-review-col">notes</div>
                     </li>
                     <li>
                         <div className="trade-review-col trade-review-head">trade_img</div>
@@ -99,7 +99,11 @@ class Index extends React.Component {
                     <li>
                         <div className="trade-review-col">
                             <Icon type="edit" />
-                            <img width={(document.body.clientWidth - 48)} src="http://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/35de475e9bafaf2cad8236bc98a80aae4850ace7d6b1e32459b7b121601255366071fe1035b1ed5285aca2127b014999?pictype=scale&from=30013&version=3.3.3.3&uin=195754799&fname=2018-5-30-dks-1.png&size=750" />
+                            {
+                                /*
+                                <img width={(document.body.clientWidth - 48)} src="http://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/35de475e9bafaf2cad8236bc98a80aae4850ace7d6b1e32459b7b121601255366071fe1035b1ed5285aca2127b014999?pictype=scale&from=30013&version=3.3.3.3&uin=195754799&fname=2018-5-30-dks-1.png&size=750" />
+                                 */
+                            }
                         </div>
                     </li>
                 </ul>

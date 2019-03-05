@@ -5,6 +5,7 @@ const router = express.Router();
 const storeTrade = require('../business/storeTrade');
 const getTrade = require('../business/getTrade');
 const analyseTrade = require('../business/analyseTrade');
+const updateTrade = require('../business/updateTrade');
 
 router.post('/api/storeTrade', function(req, res, next) {
 
@@ -63,4 +64,83 @@ router.post('/api/analyseTrade', function(req, res, next) {
         );
 });
 
+router.post('/api/updateNotesById', function(req, res, next) {
+
+    updateTrade.updateNotesById(req.body.id, req.body.notes)
+        .then(() => {
+
+        })
+        .catch(() => {
+
+        });
+});
+
+router.post('/api/updateNotesById', function(req, res, next) {
+
+    analyseTrade(req.body)
+        .then(
+            (data) => {
+                res.json({
+                    status: 0,
+                    data: data
+                })
+            }
+        ).catch(
+        (err) => {
+            console.error(err);
+        }
+    );
+});
+
+router.post('/api/updateNotesById', function(req, res, next) {
+
+    analyseTrade(req.body)
+        .then(
+            (data) => {
+                res.json({
+                    status: 0,
+                    data: data
+                })
+            }
+        ).catch(
+        (err) => {
+            console.error(err);
+        }
+    );
+});
+
+router.post('/api/updateNotesById', function(req, res, next) {
+
+    analyseTrade(req.body)
+        .then(
+            (data) => {
+                res.json({
+                    status: 0,
+                    data: data
+                })
+            }
+        ).catch(
+        (err) => {
+            console.error(err);
+        }
+    );
+});
+
+
+router.post('/api/updateNotesById', function(req, res, next) {
+
+    analyseTrade(req.body)
+        .then(
+            (data) => {
+                res.json({
+                    status: 0,
+                    data: data
+                })
+            }
+        ).catch(
+        (err) => {
+            console.error(err);
+        }
+    );
+});
 module.exports = router;
