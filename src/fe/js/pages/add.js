@@ -38,10 +38,9 @@ class App extends React.Component {
             })
             .then(function (response) {
                 alert('添加成功');
-                console.log(response);
             })
             .catch(function (error) {
-                console.log(error);
+                alert(JSON.stringify(error));
             });
     }
 

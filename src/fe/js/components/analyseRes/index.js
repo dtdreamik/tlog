@@ -65,7 +65,8 @@ class Index extends React.Component {
         super(props);
 
         this.state = {
-            visible: false
+            visible: false,
+            record: {}
         };
     }
 
@@ -98,13 +99,14 @@ class Index extends React.Component {
                                        return {
                                            onClick: (event) => {
                                                this.setState({
-                                                   visible: true
+                                                   visible: true,
+                                                   record: record
                                                });
                                            }
                                        };
                                    }}
                                    columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
-                                <TradingReview onClose={() => this.onClose()} visible={this.state.visible}/>
+                                <TradingReview onClose={() => this.onClose()} visible={this.state.visible} record={this.state.record}/>
                             </div>
                         )
                     })

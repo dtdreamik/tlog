@@ -20,8 +20,6 @@ module.exports = function(data) {
             };
      */
 
-    console.log('analyse trade');
-
     let tradeLog = models['trade_log'];
 
     let {strategy, long_or_short, day_of_week, date_range, time_ranges} = data;
@@ -41,8 +39,6 @@ module.exports = function(data) {
        // queryObj.day_of_week = day_of_week;
     }
 
-    console.log(date_range[1]);
-
     if (date_range) {
         queryObj.entry_time = {
             [gt]: new Date(date_range[0]),
@@ -54,6 +50,14 @@ module.exports = function(data) {
         where: queryObj,
         order: [
             'entry_time'
+        ],
+        include: [
+            {
+                model: models.scale_in
+            },
+            {
+                model: models.scale_out
+            }
         ]
     })
         .then(function(arr) {
@@ -63,6 +67,7 @@ module.exports = function(data) {
 
             //各个时间段的  win次数   lose次数   总盈利情况
             for (let item of arr) {
+
                 item = item.toJSON();
 
                 let exitTime = item['entry_time'];
@@ -79,11 +84,11 @@ module.exports = function(data) {
             for (let timeRange in store) {
 
                 let res = analyseTrade(store[timeRange]);
-                console.log('////////////////////////' + timeRange + '////////////////////////');
-                console.log('total trade  ' + store[timeRange].length);
-                console.log('win ' + res.winNum);
-                console.log('lose ' + res.loseNum);
-                console.log('profit ' + res.profit);
+                // console.log('////////////////////////' + timeRange + '////////////////////////');
+                // console.log('total trade  ' + store[timeRange].length);
+                // console.log('win ' + res.winNum);
+                // console.log('lose ' + res.loseNum);
+                // console.log('profit ' + res.profit);
 
                 total[timeRange] = {
                     analyseRes: res,

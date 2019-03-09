@@ -9,8 +9,6 @@ const updateTrade = require('../business/updateTrade');
 
 router.post('/api/storeTrade', function(req, res, next) {
 
-    console.log('/api/storeTrade');
-
     if (!req.body.tradeHTML) {
         res.json({
             status: 1,
@@ -68,79 +66,64 @@ router.post('/api/updateNotesById', function(req, res, next) {
 
     updateTrade.updateNotesById(req.body.id, req.body.notes)
         .then(() => {
-
+            res.json({
+                status: 0
+            });
         })
-        .catch(() => {
-
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
         });
 });
 
-router.post('/api/updateNotesById', function(req, res, next) {
+router.post('/api/updateTradeImgById', function(req, res, next) {
 
-    analyseTrade(req.body)
-        .then(
-            (data) => {
-                res.json({
-                    status: 0,
-                    data: data
-                })
-            }
-        ).catch(
-        (err) => {
-            console.error(err);
-        }
-    );
+    updateTrade.updateTradeImgById(req.body.id, req.body.tradeImg)
+        .then(() => {
+            res.json({
+                status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
 });
 
-router.post('/api/updateNotesById', function(req, res, next) {
+router.post('/api/updateStopPriceById', function(req, res, next) {
 
-    analyseTrade(req.body)
-        .then(
-            (data) => {
-                res.json({
-                    status: 0,
-                    data: data
-                })
-            }
-        ).catch(
-        (err) => {
-            console.error(err);
-        }
-    );
+    updateTrade.updateStopPriceById(req.body.id, req.body.stopPrice)
+        .then(() => {
+            res.json({
+                status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
 });
 
-router.post('/api/updateNotesById', function(req, res, next) {
+router.post('/api/updateTargetPriceById', function(req, res, next) {
 
-    analyseTrade(req.body)
-        .then(
-            (data) => {
-                res.json({
-                    status: 0,
-                    data: data
-                })
-            }
-        ).catch(
-        (err) => {
-            console.error(err);
-        }
-    );
+    updateTrade.updateTargetPriceById(req.body.id, req.body.targetPrice)
+        .then(() => {
+            res.json({
+                status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
 });
 
-
-router.post('/api/updateNotesById', function(req, res, next) {
-
-    analyseTrade(req.body)
-        .then(
-            (data) => {
-                res.json({
-                    status: 0,
-                    data: data
-                })
-            }
-        ).catch(
-        (err) => {
-            console.error(err);
-        }
-    );
-});
 module.exports = router;

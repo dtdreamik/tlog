@@ -1,17 +1,22 @@
 const models = require('../models');
 
 module.exports = function() {
-    console.log('getTrade');
 
     let tradeLog = models['trade_log'];
 
-    return tradeLog.findAll()
+    return tradeLog.findAll({
+        include: [
+            {
+                model: models.scale_in
+            },
+            {
+                model: models.scale_out
+            }
+        ]
+    })
         .then(function(arr) {
 
-            //console.log(arr);
             for (let item of arr) {
-
-                console.log(item.toJSON());
             }
         }).catch(function(err) {
             console.log(err);

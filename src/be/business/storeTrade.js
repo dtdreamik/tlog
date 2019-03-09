@@ -24,7 +24,6 @@ function extractData(tradeHTML) {
         let symbol = tds[0].innerHTML.trim();
         //2018-05-09, 09:56:09
         let rawDate = tds[1].innerHTML.trim();
-        console.log('rawDate ' + rawDate);
         rawDate = rawDate.split(',');
 
         let time = new Date(rawDate[0].trim() + 'T' + rawDate[1].trim());

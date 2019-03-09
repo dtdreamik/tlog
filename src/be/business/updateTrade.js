@@ -4,7 +4,7 @@ let tradeLog = models['trade_log'];
 
 module.exports = {
     updateNotesById: function (id, notes) {
-        tradeLog.findById(id).then(tradeItem => {
+        return tradeLog.findById(id).then(tradeItem => {
 
             if (!tradeItem) {
                 throw Error(`id为${id}的交易不存在`);
@@ -19,7 +19,7 @@ module.exports = {
     },
     updateTradeImgById: function(id, tradeImg) {
 
-        tradeLog.findById(id).then(tradeItem => {
+        return tradeLog.findById(id).then(tradeItem => {
 
             if (!tradeItem) {
                 throw Error(`id为${id}的交易不存在`);
@@ -34,7 +34,7 @@ module.exports = {
     },
     updateStopPriceById: function(id, stopPrice) {
 
-        tradeLog.findById(id).then(tradeItem => {
+        return tradeLog.findById(id).then(tradeItem => {
 
             if (!tradeItem) {
                 throw Error(`id为${id}的交易不存在`);
@@ -49,7 +49,7 @@ module.exports = {
     },
     updateTargetPriceById: function(id, targetPrice) {
 
-        tradeLog.findById(id).then(tradeItem => {
+        return tradeLog.findById(id).then(tradeItem => {
 
             if (!tradeItem) {
                 throw Error(`id为${id}的交易不存在`);

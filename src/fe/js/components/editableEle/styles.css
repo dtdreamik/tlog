@@ -1,0 +1,25 @@
+.editableEleContainer {
+    padding: 0 28px;
+    position: relative;
+}
+
+.editableEleContainer input {
+    height: 100%;
+    width: 100%;
+}
+
+.editableIMGEleContainer {
+    padding: 0
+}
+
+.editableEleContainer textarea {
+    height: 200px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.editIco {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}

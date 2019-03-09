@@ -1,13 +1,101 @@
 import React from "react";
 import { Drawer, Icon } from 'antd';
 import "./styles.css";
+import EditableEle from '../editableEle';
+import axios from 'axios';
 
 class Index extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            stopPrice: this.props.stopPrice,
+            targetPrice: this.props.targetPrice,
+            tradeImg: this.props.tradeImg,
+            notes: this.props.notes
+        };
     }
 
+    updateStopPrice(v) {
+        return axios.post('/api/updateStopPriceById', {
+                id: this.props.record.id,
+                stopPrice: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    stopPrice: v
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateTargetPrice(v) {
+        return axios.post('/api/updateTargetPriceById', {
+                id: this.props.record.id,
+                targetPrice: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    targetPrice: v
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateTradeImg(v) {
+        return axios.post('/api/updateTradeImgById', {
+                id: this.props.record.id,
+                tradeImg: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    tradeImg: v
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateNotes(v) {
+        return axios.post('/api/updateNotesById', {
+                id: this.props.record.id,
+                notes: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    notes: v
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     render() {
         return (
             <Drawer
@@ -28,9 +116,9 @@ class Index extends React.Component {
                         <div className="trade-review-col trade-review-head">profit</div>
                     </li>
                     <li>
-                        <div className="trade-review-col">jd</div>
-                        <div className="trade-review-col">long</div>
-                        <div className="trade-review-col">100</div>
+                        <div className="trade-review-col">{this.props.record.symbol}</div>
+                        <div className="trade-review-col">{this.props.record.long_short}</div>
+                        <div className="trade-review-col">{this.props.record.profit}</div>
                     </li>
                     <li>
                         <div className="trade-review-col trade-review-head trade-review-entry">entry</div>
@@ -46,33 +134,30 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="scale-trades">
-                            <div className="scale-item">
-                                <div className="trade-review-col">2018-04-02 09:30</div>
-                                <div className="trade-review-col">100</div>
-                                <div className="trade-review-col">50</div>
-                            </div>
-                            <div className="scale-item">
-                                <div className="trade-review-col">2018-04-02 09:30</div>
-                                <div className="trade-review-col">100</div>
-                                <div className="trade-review-col">50</div>
-                            </div>
-                            <div className="scale-item">
-                                <div className="trade-review-col">2018-04-02 09:30</div>
-                                <div className="trade-review-col">100</div>
-                                <div className="trade-review-col">50</div>
-                            </div>
+                            {
+                                this.props.record.scale_ins && this.props.record.scale_ins.map((scaleInItem) => {
+                                    return (
+                                        <div className="scale-item">
+                                            <div className="trade-review-col">{scaleInItem.time}</div>
+                                            <div className="trade-review-col">{scaleInItem.qty}</div>
+                                            <div className="trade-review-col">{scaleInItem.price}</div>
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
                         <div className="scale-trades">
-                            <div className="scale-item">
-                                <div className="trade-review-col">2018-04-02 09:30</div>
-                                <div className="trade-review-col">100</div>
-                                <div className="trade-review-col">50</div>
-                            </div>
-                            <div className="scale-item">
-                                <div className="trade-review-col">2018-04-02 09:30</div>
-                                <div className="trade-review-col">100</div>
-                                <div className="trade-review-col">50</div>
-                            </div>
+                            {
+                                this.props.record.scale_outs && this.props.record.scale_outs.map((scaleOutItem) => {
+                                    return (
+                                        <div className="scale-item">
+                                            <div className="trade-review-col">{scaleOutItem.time}</div>
+                                            <div className="trade-review-col">{scaleOutItem.qty}</div>
+                                            <div className="trade-review-col">{scaleOutItem.price}</div>
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
                     </li>
                     <li>
@@ -81,29 +166,34 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            40
-                            <span className="edit-ico"></span>
-
+                            <EditableEle editCallback={(v) => {
+                                return this.updateStopPrice(v);
+                            }} staticEle={this.state.stopPrice} editType={'input'}></EditableEle>
                         </div>
-                        <div className="trade-review-col">50</div>
+                        <div className="trade-review-col">
+                            <EditableEle editCallback={(v) => {
+                                return this.updateTargetPrice(v);
+                            }} staticEle={this.state.targetPrice} editType={'input'}></EditableEle>
+                        </div>
                     </li>
                     <li>
                         <div className="trade-review-col trade-review-head">notes</div>
                     </li>
-                    <li>Id
-                        <div className="trade-review-col">notes</div>
+                    <li>
+                        <div className="trade-review-col">
+                            <EditableEle editCallback={(v) => {
+                                return this.updateNotes(v);
+                            }} staticEle={this.state.notes} editType={'textarea'}></EditableEle>
+                        </div>
                     </li>
                     <li>
                         <div className="trade-review-col trade-review-head">trade_img</div>
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <Icon type="edit" />
-                            {
-                                /*
-                                <img width={(document.body.clientWidth - 48)} src="http://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/35de475e9bafaf2cad8236bc98a80aae4850ace7d6b1e32459b7b121601255366071fe1035b1ed5285aca2127b014999?pictype=scale&from=30013&version=3.3.3.3&uin=195754799&fname=2018-5-30-dks-1.png&size=750" />
-                                 */
-                            }
+                            <EditableEle editCallback={(v) => {
+                                return this.updateTradeImg(v);
+                            }} staticEle={<img width="100%" src={this.state.tradeImg} />} editType={'input'}></EditableEle>
                         </div>
                     </li>
                 </ul>

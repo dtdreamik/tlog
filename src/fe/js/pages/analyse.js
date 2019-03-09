@@ -19,7 +19,6 @@ class App extends React.Component {
 
     handleSubmit = (formObj) => {
 
-        console.log('handleSubmit');
         formObj.validateFields((err, fieldsValue) => {
 
             if (err) {
@@ -75,15 +74,13 @@ class App extends React.Component {
                     }
                 })
                 .then((response) => {
-                    console.log(response.data);
-                    console.log(response.data.data);
 
                     this.setState({
                         analyseRes: response.data.data
                     });
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.error(error);
                 });
         });
     }
