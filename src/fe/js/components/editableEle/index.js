@@ -46,9 +46,12 @@ class Index extends React.Component {
                     this.clickEditIcon.pending = false;
                 });
         } else {
+            console.log('clickEditIcon ' + this.props.val);
             this.clickEditIcon.pending = false;
             this.setState({
                 showStaticEle: !this.state.showStaticEle
+            }, () => {
+                this.editEleRef.current.value = this.props.val;
             });
         }
     }

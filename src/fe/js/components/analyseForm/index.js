@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Row, Col, Button, Select, DatePicker, TimePicker } from 'antd';
-
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
@@ -105,7 +105,7 @@ class Index extends React.Component {
                             <Row type="flex" justify="start">
                                 <Col>
                                     {getFieldDecorator('time_range1')(
-                                        <TimePicker format={format}/>
+                                        <TimePicker format={format} defaultValue={moment('09:30', format)}/>
                                     )}
                                     -----
                                     {getFieldDecorator('time_range2')(

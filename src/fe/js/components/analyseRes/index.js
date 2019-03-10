@@ -69,6 +69,12 @@ class Index extends React.Component {
             visible: false,
             record: {}
         };
+
+        document.addEventListener('keyup', (e)=> {
+            if (event.keyCode === 27) {
+                this.onClose();
+            }
+        }, false);
     }
 
     onClose = () => {
@@ -86,11 +92,13 @@ class Index extends React.Component {
             }}>
                 {
                     Object.keys(this.props.analyseData).map((key) => {
-
                         return (
                             <div>
                             <h1 style={{
-                                textAlign: 'center'
+                                textAlign: 'center',
+                                fontSize: '50px',
+                                padding: '10px',
+                                background: '#cec2c2'
                             }}>
                                 {key}
                             </h1>
@@ -132,7 +140,7 @@ class Index extends React.Component {
 
     updateStopPrice(v) {
         return axios.post('/api/updateStopPriceById', {
-                id: this.props.record.id,
+                id: this.state.record.id,
                 stopPrice: v
             },
             {
@@ -154,7 +162,7 @@ class Index extends React.Component {
 
     updateTargetPrice(v) {
         return axios.post('/api/updateTargetPriceById', {
-                id: this.props.record.id,
+                id: this.state.record.id,
                 targetPrice: v
             },
             {
@@ -176,7 +184,7 @@ class Index extends React.Component {
 
     updateTradeImg(v) {
         return axios.post('/api/updateTradeImgById', {
-                id: this.props.record.id,
+                id: this.state.record.id,
                 tradeImg: v
             },
             {
@@ -198,7 +206,7 @@ class Index extends React.Component {
 
     updateNotes(v) {
         return axios.post('/api/updateNotesById', {
-                id: this.props.record.id,
+                id: this.state.record.id,
                 notes: v
             },
             {

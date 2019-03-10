@@ -81,10 +81,10 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={this.props.updateStopPrice} staticEle={this.props.record.stop_price} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateStopPrice} val={this.props.record.stop_price} staticEle={this.props.record.stop_price} editType={'input'}></EditableEle>
                         </div>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={this.props.updateTargetPrice} staticEle={this.props.record.target_price} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateTargetPrice} val={this.props.record.target_price} staticEle={this.props.record.target_price} editType={'input'}></EditableEle>
                         </div>
                     </li>
                     <li>
@@ -92,7 +92,7 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={this.props.updateTradeImg} staticEle={this.props.record.notes} editType={'textarea'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateNotes} val={this.props.record.notes}  staticEle={this.props.record.notes} editType={'textarea'}></EditableEle>
                         </div>
                     </li>
                     <li>
@@ -100,7 +100,7 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={this.props.updateNotes} staticEle={<img width="100%" src={this.props.record.trade_img} />} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateTradeImg} val={this.props.record.trade_img}   staticEle={<img width="100%" src={this.props.record.trade_img} />} editType={'input'}></EditableEle>
                         </div>
                     </li>
                 </ul>
