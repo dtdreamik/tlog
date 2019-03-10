@@ -1,6 +1,7 @@
 import React from "react";
 import { Drawer, Table, Icon } from 'antd';
 import TradingReview from '../tradingrReview';
+import axios from "axios/index";
 
 const analyseResColumns = [{
     title: 'total num',
@@ -98,6 +99,7 @@ class Index extends React.Component {
                                    onRow={(record) => {
                                        return {
                                            onClick: (event) => {
+                                               console.log(JSON.stringify(record));
                                                this.setState({
                                                    visible: true,
                                                    record: record
@@ -106,13 +108,114 @@ class Index extends React.Component {
                                        };
                                    }}
                                    columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
-                                <TradingReview onClose={() => this.onClose()} visible={this.state.visible} record={this.state.record}/>
+                                <TradingReview
+                                    updateStopPrice={(v) => {
+                                        return this.updateStopPrice(v);
+                                    }}
+                                    updateTargetPrice={(v) => {
+                                        return this.updateTargetPrice(v);
+                                    }}
+                                    updateTradeImg={(v) => {
+                                        return this.updateTradeImg(v);
+                                    }}
+                                    updateNotes={(v) => {
+                                        return this.updateNotes(v);
+                                    }}
+                                   onClose={() => this.onClose()} visible={this.state.visible} record={this.state.record}/>
                             </div>
                         )
                     })
                 }
             </div>
         );
+    }
+
+    updateStopPrice(v) {
+        return axios.post('/api/updateStopPriceById', {
+                id: this.props.record.id,
+                stopPrice: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        stop_price: v
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateTargetPrice(v) {
+        return axios.post('/api/updateTargetPriceById', {
+                id: this.props.record.id,
+                targetPrice: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        target_price: v
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateTradeImg(v) {
+        return axios.post('/api/updateTradeImgById', {
+                id: this.props.record.id,
+                tradeImg: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        trade_img: v
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    updateNotes(v) {
+        return axios.post('/api/updateNotesById', {
+                id: this.props.record.id,
+                notes: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        notes: v
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 }
 

@@ -2,101 +2,16 @@ import React from "react";
 import { Drawer, Icon } from 'antd';
 import "./styles.css";
 import EditableEle from '../editableEle';
-import axios from 'axios';
+
 
 class Index extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            stopPrice: this.props.stopPrice,
-            targetPrice: this.props.targetPrice,
-            tradeImg: this.props.tradeImg,
-            notes: this.props.notes
-        };
-    }
-
-    updateStopPrice(v) {
-        return axios.post('/api/updateStopPriceById', {
-                id: this.props.record.id,
-                stopPrice: v
-            },
-            {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(() => {
-                this.setState({
-                    stopPrice: v
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    updateTargetPrice(v) {
-        return axios.post('/api/updateTargetPriceById', {
-                id: this.props.record.id,
-                targetPrice: v
-            },
-            {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(() => {
-                this.setState({
-                    targetPrice: v
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    updateTradeImg(v) {
-        return axios.post('/api/updateTradeImgById', {
-                id: this.props.record.id,
-                tradeImg: v
-            },
-            {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(() => {
-                this.setState({
-                    tradeImg: v
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    updateNotes(v) {
-        return axios.post('/api/updateNotesById', {
-                id: this.props.record.id,
-                notes: v
-            },
-            {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(() => {
-                this.setState({
-                    notes: v
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     }
     render() {
+        console.log('tradingreview render');
+        console.log(this.props.record.trade_img);
         return (
             <Drawer
                 title="Trade Review"
@@ -166,14 +81,10 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={(v) => {
-                                return this.updateStopPrice(v);
-                            }} staticEle={this.state.stopPrice} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateStopPrice} staticEle={this.props.record.stop_price} editType={'input'}></EditableEle>
                         </div>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={(v) => {
-                                return this.updateTargetPrice(v);
-                            }} staticEle={this.state.targetPrice} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateTargetPrice} staticEle={this.props.record.target_price} editType={'input'}></EditableEle>
                         </div>
                     </li>
                     <li>
@@ -181,9 +92,7 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={(v) => {
-                                return this.updateNotes(v);
-                            }} staticEle={this.state.notes} editType={'textarea'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateTradeImg} staticEle={this.props.record.notes} editType={'textarea'}></EditableEle>
                         </div>
                     </li>
                     <li>
@@ -191,9 +100,7 @@ class Index extends React.Component {
                     </li>
                     <li>
                         <div className="trade-review-col">
-                            <EditableEle editCallback={(v) => {
-                                return this.updateTradeImg(v);
-                            }} staticEle={<img width="100%" src={this.state.tradeImg} />} editType={'input'}></EditableEle>
+                            <EditableEle editCallback={this.props.updateNotes} staticEle={<img width="100%" src={this.props.record.trade_img} />} editType={'input'}></EditableEle>
                         </div>
                     </li>
                 </ul>
