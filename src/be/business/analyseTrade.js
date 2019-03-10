@@ -49,7 +49,7 @@ module.exports = function(data) {
     return tradeLog.findAll({
         where: queryObj,
         order: [
-            'entry_time'
+            ['entry_time', 'DESC']
         ],
         include: [
             {
