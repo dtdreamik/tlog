@@ -126,4 +126,20 @@ router.post('/api/updateTargetPriceById', function(req, res, next) {
         });
 });
 
+router.post('/api/updateNeedReviewById', function(req, res, next) {
+
+    updateTrade.updateNeedReviewById(req.body.id, req.body.needReview)
+        .then(() => {
+            res.json({
+                status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
+
 module.exports = router;

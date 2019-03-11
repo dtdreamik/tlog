@@ -61,5 +61,21 @@ module.exports = {
                 console.error('updateTargetPriceById error ' + JSON.stringify(e));
             });
         });
+    },
+
+    updateNeedReviewById: function(id, needReview) {
+
+        return tradeLog.findById(id).then(tradeItem => {
+
+            if (!tradeItem) {
+                throw Error(`id为${id}的交易不存在`);
+            }
+
+            return tradeItem.update({
+                need_review: needReview
+            }).catch((e) => {
+                console.error('updateNeedReviewById error ' + JSON.stringify(e));
+            });
+        });
     }
 };

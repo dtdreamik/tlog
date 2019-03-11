@@ -1,6 +1,8 @@
 .editableEleContainer {
     padding: 0 28px;
     position: relative;
+    white-space: pre-line;
+    text-align: left;
 }
 
 .editableEleContainer input {

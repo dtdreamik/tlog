@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DOUBLE,
             defaultValue: 0
         },
+        need_review:  {
+            type: DataTypes.STRING,
+            defaultValue: 'false'
+        },
         fees: DataTypes.DOUBLE,
         notes: {
             type: DataTypes.STRING,

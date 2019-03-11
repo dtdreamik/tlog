@@ -78,6 +78,7 @@ class Index extends React.Component {
                     <li>
                         <div className="trade-review-col trade-review-head">stop price</div>
                         <div className="trade-review-col trade-review-head">target price</div>
+                        <div className="trade-review-col trade-review-head">need review</div>
                     </li>
                     <li>
                         <div className="trade-review-col">
@@ -85,6 +86,9 @@ class Index extends React.Component {
                         </div>
                         <div className="trade-review-col">
                             <EditableEle editCallback={this.props.updateTargetPrice} val={this.props.record.target_price} staticEle={this.props.record.target_price} editType={'input'}></EditableEle>
+                        </div>
+                        <div className="trade-review-col">
+                            <EditableEle editCallback={this.props.updateNeedReview} val={this.props.record.need_review} staticEle={this.props.record.need_review} editType={'input'}></EditableEle>
                         </div>
                     </li>
                     <li>

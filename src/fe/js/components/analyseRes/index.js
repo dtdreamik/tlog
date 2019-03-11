@@ -129,6 +129,9 @@ class Index extends React.Component {
                                     updateNotes={(v) => {
                                         return this.updateNotes(v);
                                     }}
+                                    updateNeedReview={(v) => {
+                                        return this.updateNeedReview(v);
+                                    }}
                                    onClose={() => this.onClose()} visible={this.state.visible} record={this.state.record}/>
                             </div>
                         )
@@ -225,6 +228,28 @@ class Index extends React.Component {
                 console.log(error);
             });
     }
+    updateNeedReview(v) {
+        return axios.post('/api/updateNeedReviewById', {
+                id: this.state.record.id,
+                needReview: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        need_review: v
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
 }
 
 export default Index;
