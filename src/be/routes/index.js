@@ -6,6 +6,7 @@ const storeTrade = require('../business/storeTrade');
 const getTrade = require('../business/getTrade');
 const analyseTrade = require('../business/analyseTrade');
 const updateTrade = require('../business/updateTrade');
+const customAnalyseTrade = require('../business/customAnalyseTrade');
 
 router.post('/api/storeTrade', function(req, res, next) {
 
@@ -132,6 +133,22 @@ router.post('/api/updateNeedReviewById', function(req, res, next) {
         .then(() => {
             res.json({
                 status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
+
+router.post('/api/customAnalyseTrade', function(req, res, next) {
+    customAnalyseTrade(req.body)
+        .then((data) => {
+            res.json({
+                status: 0,
+                data: data
             });
         })
         .catch((e) => {

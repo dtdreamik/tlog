@@ -30,7 +30,8 @@ class Index extends React.Component {
                         <Menu.Item key="add" onClick = {this.goTo('add')}>add</Menu.Item>
                     </SubMenu>
                     <SubMenu key="analysis" title={<span><Icon type="laptop" />Analysis</span>}>
-                        <Menu.Item key="5" onClick = {this.goTo('analyse')}>stocks</Menu.Item>
+                        <Menu.Item key="5" onClick = {this.goTo('analyse')}>normal</Menu.Item>
+                        <Menu.Item key="5" onClick = {this.goTo('custom')}>custom</Menu.Item>
                     </SubMenu>
                     <SubMenu key="myInfo" title={<span><Icon type="notification" />MyInfo</span>}>
                         <Menu.Item key="9">accounts</Menu.Item>
