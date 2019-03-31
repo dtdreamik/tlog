@@ -8,6 +8,16 @@ class Index extends React.Component {
 
     constructor(props) {
         super(props);
+
+        document.addEventListener('keyup', (e)=> {
+            if (event.keyCode === 37) {
+                this.props.previous();
+            }
+
+            if (event.keyCode === 39) {
+                this.props.next();
+            }
+        }, false);
     }
     render() {
         console.log('tradingreview render');
@@ -31,7 +41,7 @@ class Index extends React.Component {
                         <div className="trade-review-col trade-review-head">profit</div>
                     </li>
                     <li>
-                        <div className="trade-review-col">{this.props.record.symbol}</div>
+                        <div className="trade-review-col">{this.props.record.symbol} 第{this.props.record.tradeOrder}次</div>
                         <div className="trade-review-col">{this.props.record.long_short}</div>
                         <div className="trade-review-col">{this.props.record.profit}</div>
                     </li>
@@ -89,6 +99,18 @@ class Index extends React.Component {
                         </div>
                         <div className="trade-review-col">
                             <EditableEle editCallback={this.props.updateNeedReview} val={this.props.record.need_review} staticEle={this.props.record.need_review} editType={'input'}></EditableEle>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="trade-review-col trade-review-head">entry strategy</div>
+                        <div className="trade-review-col trade-review-head">exit strategy</div>
+                    </li>
+                    <li>
+                        <div className="trade-review-col">
+                            <EditableEle selectOptions={this.props.entryStrategies} editCallback={this.props.updateEntryStrategy} val={this.props.record.entry_strategy && this.props.record.entry_strategy.id || 1} staticEle={this.props.record.entry_strategy && this.props.record.entry_strategy.name || ''} editType={'select'}></EditableEle>
+                        </div>
+                        <div className="trade-review-col">
+                            <EditableEle selectOptions={this.props.exitStrategies} editCallback={this.props.updateExitStrategy} val={this.props.record.exit_strategy && this.props.record.exit_strategy.id || 1} staticEle={this.props.record.exit_strategy && this.props.record.exit_strategy.name || ''} editType={'select'}></EditableEle>
                         </div>
                     </li>
                     <li>

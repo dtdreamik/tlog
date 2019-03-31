@@ -30,6 +30,7 @@ const tradesColumns = [{
     title: 'profit',
     dataIndex: 'profit',
     sorter: (a, b) => a.profit - b.profit
+
 }, {
     title: 'entry_time',
     dataIndex: 'entry_time',
@@ -64,6 +65,7 @@ class Index extends React.Component {
 
     constructor(props) {
         super(props);
+        this.reviewIndex = 0;
 
         this.state = {
             visible: false,
@@ -75,6 +77,14 @@ class Index extends React.Component {
                 this.onClose();
             }
         }, false);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let trades = this.trades = [];
+
+        for (let key in nextProps.analyseData.analyseRes) {
+            trades.push.apply(trades, nextProps.analyseData.analyseRes[key].trades);
+        }
     }
 
     onClose = () => {
@@ -91,7 +101,7 @@ class Index extends React.Component {
                 paddingLeft: '10px'
             }}>
                 {
-                    Object.keys(this.props.analyseData).map((key) => {
+                    Object.keys(this.props.analyseData.analyseRes).map((key) => {
                         return (
                             <div>
                             <h1 style={{
@@ -102,7 +112,7 @@ class Index extends React.Component {
                             }}>
                                 {key}
                             </h1>
-                            <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseData[key].analyseRes]} size="middle" />
+                            <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseData.analyseRes[key].analyseRes]} size="middle" />
                             <Table bordered ={true} pagination = {{position: 'none'}} pagination={{ pageSize: 5000 }}
                                    onRow={(record) => {
                                        return {
@@ -112,11 +122,18 @@ class Index extends React.Component {
                                                    visible: true,
                                                    record: record
                                                });
+
+                                               this.reviewIndex = this.trades.indexOf(record);
                                            }
                                        };
                                    }}
-                                   columns={tradesColumns} dataSource={this.props.analyseData[key].trades} size="middle" />
+                                   columns={tradesColumns} dataSource={this.props.analyseData.analyseRes[key].trades} size="middle" />
                                 <TradingReview
+                                    entryStrategies={this.props.analyseData.entryStrategies}
+                                    exitStrategies={this.props.analyseData.exitStrategies}
+                                    updateEntryStrategy={(v) => {
+                                        return this.updateEntryStrategy(v);
+                                    }}
                                     updateStopPrice={(v) => {
                                         return this.updateStopPrice(v);
                                     }}
@@ -132,6 +149,27 @@ class Index extends React.Component {
                                     updateNeedReview={(v) => {
                                         return this.updateNeedReview(v);
                                     }}
+
+                                    next = {() => {
+                                        this.reviewIndex++;
+                                        if (this.reviewIndex > this.trades.length - 1) {
+                                            return;
+                                        }
+                                        let record = this.trades[this.reviewIndex];
+                                        this.setState({
+                                            record: record
+                                        });
+                                    }}
+                                    previous = {() => {
+                                        this.reviewIndex--;
+                                        if (this.reviewIndex < 0) {
+                                            return;
+                                        }
+                                        let record = this.trades[this.reviewIndex];
+                                        this.setState({
+                                            record: record
+                                        });
+                                    }}
                                    onClose={() => this.onClose()} visible={this.state.visible} record={this.state.record}/>
                             </div>
                         )
@@ -140,7 +178,37 @@ class Index extends React.Component {
             </div>
         );
     }
+    updateEntryStrategy(v) {
+        return axios.post('/api/updateEntryStrategyById', {
+                id: this.state.record.id,
+                entryStrategyId: v
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(() => {
 
+                let name = 'none';
+                this.props.analyseData.entryStrategies.forEach((item)=> {
+                    if (item.id === parseInt(v)) {
+                        name = item.name;
+                    }
+                });
+                this.setState({
+                    record: Object.assign(this.state.record, {
+                        entry_strategy: {
+                            id: v,
+                            name
+                        }
+                    })
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     updateStopPrice(v) {
         return axios.post('/api/updateStopPriceById', {
                 id: this.state.record.id,

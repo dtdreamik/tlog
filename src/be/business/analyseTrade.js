@@ -49,7 +49,7 @@ module.exports = function(data) {
     return tradeLog.findAll({
         where: queryObj,
         order: [
-            ['entry_time', 'DESC']
+            ['entry_time', 'ASC']
         ],
         include: [
             {
@@ -57,6 +57,9 @@ module.exports = function(data) {
             },
             {
                 model: models.scale_out
+            },
+            {
+                model: models.entry_strategy
             }
         ]
     })
@@ -65,10 +68,17 @@ module.exports = function(data) {
             //指定日期范围
             initStoreAndTimeFrames(data.time_ranges);
 
+            let tradeCounter = {};
             //各个时间段的  win次数   lose次数   总盈利情况
             for (let item of arr) {
 
+                if (!tradeCounter[item.symbol]) {
+                    tradeCounter[item.symbol] = 1;
+                } else {
+                    tradeCounter[item.symbol]++;
+                }
                 item = item.toJSON();
+                item.tradeOrder = tradeCounter[item.symbol];
 
                 let exitTime = item['entry_time'];
                 let index = figureOutTimeFrameWhichTheTradeBelongsTo(exitTime);

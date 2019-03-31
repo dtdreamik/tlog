@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
         models['trade_log'].hasMany(models['scale_in']);
         models['trade_log'].hasMany(models['scale_out']);
-
+        models['trade_log'].belongsTo(models['entry_strategy']);
     };
 
     return TradeLog;

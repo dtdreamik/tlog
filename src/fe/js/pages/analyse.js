@@ -76,7 +76,7 @@ class App extends React.Component {
                 .then((response) => {
 
                     this.setState({
-                        analyseRes: response.data.data
+                        analyseData: response.data.data
                     });
                 })
                 .catch(function (error) {
@@ -88,7 +88,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            analyseRes: {}
+            analyseData: {
+                analyseRes: {},
+                entryStrategies: [],
+                exitStrategies: []
+            }
         };
     }
 
@@ -100,7 +104,7 @@ class App extends React.Component {
                     <Navigator target={'index'} />
                     <Layout style={{ paddingLeft: '5px' }}>
                         <AnalyseForm onHandleSubmit={this.handleSubmit} />
-                        <AnalyseRes analyseData={this.state.analyseRes}/>
+                        <AnalyseRes analyseData={this.state.analyseData}/>
                     </Layout>
                 </Layout>
             </Layout>

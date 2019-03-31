@@ -7,6 +7,7 @@ const getTrade = require('../business/getTrade');
 const analyseTrade = require('../business/analyseTrade');
 const updateTrade = require('../business/updateTrade');
 const customAnalyseTrade = require('../business/customAnalyseTrade');
+const strategy = require('../business/strategy');
 
 router.post('/api/storeTrade', function(req, res, next) {
 
@@ -48,19 +49,40 @@ router.get('/api/getTradeList', function(req, res, next) {
 
 router.post('/api/analyseTrade', function(req, res, next) {
 
-    analyseTrade(req.body)
+    Promise.all([analyseTrade(req.body), strategy.getEntryStrategies(), strategy.getExitStrategies()])
         .then(
-            (data) => {
+            (datas) => {
                 res.json({
                     status: 0,
-                    data: data
+                    data: {
+                        analyseRes: datas[0],
+                        entryStrategies: datas[1],
+                        exitStrategies: datas[2]
+                    }
                 })
             }
-        ).catch(
+        )
+        .catch(
             (err) => {
                 console.error(err);
             }
         );
+});
+
+router.post('/api/updateEntryStrategyById', function(req, res, next) {
+
+    updateTrade.updateEntryStrategyById(req.body.id, req.body.entryStrategyId)
+        .then(() => {
+            res.json({
+                status: 0
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
 });
 
 router.post('/api/updateNotesById', function(req, res, next) {

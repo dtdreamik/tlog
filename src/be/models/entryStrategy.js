@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     EntryStrategy.associate = function (models) {
-        models['entry_strategy'].hasMany(models['trade_log']);
+       // models['entry_strategy'].hasMany(models['trade_log']);
     };
 
     return EntryStrategy;

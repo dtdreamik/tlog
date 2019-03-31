@@ -1,6 +1,8 @@
 import React from "react";
-import { Icon } from 'antd';
+import { Icon, Select } from 'antd';
 import "./styles.css";
+
+const Option = Select.Option;
 
 const EditediInput = function(props) {
     return <input type="text" ref={props.editRef} />;
@@ -8,6 +10,18 @@ const EditediInput = function(props) {
 
 const EditediTextarea = function(props) {
     return <textarea ref={props.editRef} />;
+}
+
+const EditediSelect = function(props) {
+    return (
+        <select ref={props.editRef} style={{ width: '100%' }} >
+            {
+                props.selectOptions.map((item) => {
+                    return <option value={item.id}>{item.name}</option>;
+                })
+            }
+        </select>
+    )
 }
 
 class Index extends React.Component {
@@ -51,7 +65,18 @@ class Index extends React.Component {
             this.setState({
                 showStaticEle: !this.state.showStaticEle
             }, () => {
-                this.editEleRef.current.value = this.props.val;
+                if (this.props.editType === 'select') {
+                    let options = this.editEleRef.current.children;
+                    let index = 0;
+                    for (let i = 0; i < options.length; i++) {
+                        if (options[i].value === (this.props.val + '')) {
+                            index = i;
+                        }
+                    }
+                    this.editEleRef.current.selectedIndex = index;
+                } else {
+                    this.editEleRef.current.value = this.props.val;
+                }
             });
         }
     }
@@ -61,7 +86,9 @@ class Index extends React.Component {
             <div className="editableEleContainer">
                 {this.state.showStaticEle ?
                     this.props.staticEle : this.props.editType === 'input' ?
-                        <EditediInput editRef={this.editEleRef} /> : <EditediTextarea editRef={this.editEleRef} />}
+                        <EditediInput editRef={this.editEleRef} /> :
+                        this.props.editType === 'select' ?
+                        <EditediSelect selectOptions={this.props.selectOptions} editRef={this.editEleRef} /> : <EditediTextarea editRef={this.editEleRef} />}
                 <Icon type="edit" className="editIco" onClick={() => {
                     this.clickEditIcon()
                 }}/>

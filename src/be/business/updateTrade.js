@@ -3,6 +3,20 @@ const models = require('../models');
 let tradeLog = models['trade_log'];
 
 module.exports = {
+    updateEntryStrategyById: function (id, entryStrategyId) {
+        return tradeLog.findById(id).then(tradeItem => {
+
+            if (!tradeItem) {
+                throw Error(`id为${id}的交易不存在`);
+            }
+
+            return tradeItem.update({
+                entry_strategy_id: entryStrategyId
+            }).catch((e) => {
+                console.error('updateEntryStrategyById error ' + JSON.stringify(e));
+            });
+        });
+    },
     updateNotesById: function (id, notes) {
         return tradeLog.findById(id).then(tradeItem => {
 
