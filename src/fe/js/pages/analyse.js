@@ -13,6 +13,31 @@ import AnalyseRes from '../components/analyseRes';
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            analyseRes: {},
+            entryStrategies: [],
+            exitStrategies: []
+        };
+    }
+
+    componentDidMount() {
+        axios.post('/api/getStrategies', {},
+            {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then((response) => {
+                this.setState(Object.assign(this.state, response.data.data));
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+
+    }
+
     componentDidUpdate() {
 
     }
@@ -74,10 +99,7 @@ class App extends React.Component {
                     }
                 })
                 .then((response) => {
-
-                    this.setState({
-                        analyseData: response.data.data
-                    });
+                    this.setState(Object.assign(this.state,  response.data.data));
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -85,16 +107,7 @@ class App extends React.Component {
         });
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            analyseData: {
-                analyseRes: {},
-                entryStrategies: [],
-                exitStrategies: []
-            }
-        };
-    }
+
 
     render () {
         return (
@@ -103,8 +116,12 @@ class App extends React.Component {
                 <Layout>
                     <Navigator target={'index'} />
                     <Layout style={{ paddingLeft: '5px' }}>
-                        <AnalyseForm onHandleSubmit={this.handleSubmit} />
-                        <AnalyseRes analyseData={this.state.analyseData}/>
+                        <AnalyseForm onHandleSubmit={this.handleSubmit}
+                             entryStrategies={this.state.entryStrategies}
+                             exitStrategies={this.state.exitStrategies}/>
+                          <AnalyseRes analyseRes={this.state.analyseRes}
+                             entryStrategies={this.state.entryStrategies}
+                             exitStrategies={this.state.exitStrategies}/>
                     </Layout>
                 </Layout>
             </Layout>

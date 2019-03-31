@@ -82,8 +82,8 @@ class Index extends React.Component {
     componentWillReceiveProps(nextProps) {
         let trades = this.trades = [];
 
-        for (let key in nextProps.analyseData.analyseRes) {
-            trades.push.apply(trades, nextProps.analyseData.analyseRes[key].trades);
+        for (let key in nextProps.analyseRes) {
+            trades.push.apply(trades, nextProps.analyseRes[key].trades);
         }
     }
 
@@ -101,7 +101,7 @@ class Index extends React.Component {
                 paddingLeft: '10px'
             }}>
                 {
-                    Object.keys(this.props.analyseData.analyseRes).map((key) => {
+                    Object.keys(this.props.analyseRes).map((key) => {
                         return (
                             <div>
                             <h1 style={{
@@ -112,7 +112,7 @@ class Index extends React.Component {
                             }}>
                                 {key}
                             </h1>
-                            <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseData.analyseRes[key].analyseRes]} size="middle" />
+                            <Table bordered = {true} pagination = {{position: 'none'}} columns={analyseResColumns} dataSource={[this.props.analyseRes[key].analyseRes]} size="middle" />
                             <Table bordered ={true} pagination = {{position: 'none'}} pagination={{ pageSize: 5000 }}
                                    onRow={(record) => {
                                        return {
@@ -127,10 +127,10 @@ class Index extends React.Component {
                                            }
                                        };
                                    }}
-                                   columns={tradesColumns} dataSource={this.props.analyseData.analyseRes[key].trades} size="middle" />
+                                   columns={tradesColumns} dataSource={this.props.analyseRes[key].trades} size="middle" />
                                 <TradingReview
-                                    entryStrategies={this.props.analyseData.entryStrategies}
-                                    exitStrategies={this.props.analyseData.exitStrategies}
+                                    entryStrategies={this.props.entryStrategies}
+                                    exitStrategies={this.props.exitStrategies}
                                     updateEntryStrategy={(v) => {
                                         return this.updateEntryStrategy(v);
                                     }}
@@ -191,7 +191,7 @@ class Index extends React.Component {
             .then(() => {
 
                 let name = 'none';
-                this.props.analyseData.entryStrategies.forEach((item)=> {
+                this.props.entryStrategies.forEach((item)=> {
                     if (item.id === parseInt(v)) {
                         name = item.name;
                     }

@@ -49,15 +49,13 @@ router.get('/api/getTradeList', function(req, res, next) {
 
 router.post('/api/analyseTrade', function(req, res, next) {
 
-    Promise.all([analyseTrade(req.body), strategy.getEntryStrategies(), strategy.getExitStrategies()])
+    analyseTrade(req.body)
         .then(
-            (datas) => {
+            (data) => {
                 res.json({
                     status: 0,
                     data: {
-                        analyseRes: datas[0],
-                        entryStrategies: datas[1],
-                        exitStrategies: datas[2]
+                        analyseRes: data
                     }
                 })
             }
@@ -167,6 +165,23 @@ router.post('/api/updateNeedReviewById', function(req, res, next) {
 
 router.post('/api/customAnalyseTrade', function(req, res, next) {
     customAnalyseTrade(req.body)
+        .then((data) => {
+            res.json({
+                status: 0,
+                data: data
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
+
+router.post('/api/getStrategies', function(req, res, next) {
+
+    strategy.getStrategies()
         .then((data) => {
             res.json({
                 status: 0,

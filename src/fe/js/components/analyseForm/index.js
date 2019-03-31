@@ -48,11 +48,13 @@ class Index extends React.Component {
                             {getFieldDecorator('strategy', {
                                 initialValue: ''
                             })(
-                                <Select style={{ width: 180 }} >
+                                <Select style={{ width: 380 }} >
                                     <Option value="">all</Option>
-                                    <Option value="jack">opening range short</Option>
-                                    <Option value="lucy">flat top break</Option>
-                                    <Option value="Yiminghe">pull back long</Option>
+                                    {
+                                        this.props.entryStrategies.map((item) => {
+                                            return (<Option value={item.id}>{item.name}</Option>);
+                                        })
+                                    }
                                 </Select>
                             )}
                         </FormItem>

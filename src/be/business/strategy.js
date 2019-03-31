@@ -9,5 +9,14 @@ module.exports = {
     },
     getExitStrategies: function() {
         return exitStrategy.findAll();
+    },
+    getStrategies: function() {
+        return Promise.all([this.getEntryStrategies(), this.getExitStrategies()])
+            .then((datas) => {
+                return {
+                    entryStrategies: datas[0],
+                    exitStrategies: datas[1]
+                }
+            });
     }
 };
