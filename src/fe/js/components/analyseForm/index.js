@@ -66,8 +66,8 @@ class Index extends React.Component {
                             })(
                                 <Select style={{ width: 80 }} >
                                     <Option value="">all</Option>
-                                    <Option value="1">long</Option>
-                                    <Option value="2">short</Option>
+                                    <Option value="long">long</Option>
+                                    <Option value="short">short</Option>
                                 </Select>
                             )}
                         </FormItem>
