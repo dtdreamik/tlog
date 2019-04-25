@@ -231,4 +231,26 @@ router.post('/api/storeCharts', function(req, res, next) {
             });
         });
 });
+
+const fs = require('fs');
+const path = require('path');
+const config = require('../config/settings');
+router.get('/img/:year/:month/:day/:symbol', function(req, res, next) {
+
+    let {year, month, day, symbol} = req.params;
+
+    fs.readFile(path.join(config.imgBaseDir, year, month, `${year}-${month}-${day}-${symbol}.png`), (err, data) => {
+        if (err) {
+            console.error(err);
+            fs.readFile(path.join(config.imgBaseDir, '404.jpg'), (err, data) => {
+                if (err) {
+                    throw err;
+                }
+                res.end(data);
+            });
+        } else {
+            res.end(data);
+        }
+    });
+});
 module.exports = router;
