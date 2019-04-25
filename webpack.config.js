@@ -3,7 +3,8 @@ module.exports = {
         index: './src/fe/js/pages/index.js',
         add: './src/fe/js/pages/add.js',
         analyse: './src/fe/js/pages/analyse.js',
-        custom: './src/fe/js/pages/custom.js'
+        custom: './src/fe/js/pages/custom.js',
+        addchart: './src/fe/js/pages/addchart.js'
     },
     mode: 'development',
     module: {

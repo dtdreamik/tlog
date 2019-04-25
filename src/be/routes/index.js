@@ -8,6 +8,8 @@ const analyseTrade = require('../business/analyseTrade');
 const updateTrade = require('../business/updateTrade');
 const customAnalyseTrade = require('../business/customAnalyseTrade');
 const strategy = require('../business/strategy');
+const tag = require('../business/tag');
+const chart = require('../business/chart');
 
 router.post('/api/storeTrade', function(req, res, next) {
 
@@ -196,4 +198,37 @@ router.post('/api/getStrategies', function(req, res, next) {
         });
 });
 
+router.post('/api/getTags', function(req, res, next) {
+
+    tag.getAllTags()
+        .then((data) => {
+            res.json({
+                status: 0,
+                data: data
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
+
+router.post('/api/storeCharts', function(req, res, next) {
+
+    chart.storeCharts(req.body)
+        .then((data) => {
+            res.json({
+                status: 0,
+                data: data
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
 module.exports = router;

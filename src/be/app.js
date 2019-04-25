@@ -23,6 +23,16 @@ models.sequelize.sync({
     app.listen(8001);
     app.use('/', routes);
 
+
+    // models['chart'].create({
+    //     symbol: 'jd',
+    //     path: '/index',
+    //     date: new Date(0)
+    // })
+    //     .then(function(chart) {
+    //         chart.addTags(1);
+    //     });
+
     if (force) {
 
         //初始化entryStrategy  exitStrategy表数据 给个默认值 要不插入tradeLog会报:a foreign key constraint fails
