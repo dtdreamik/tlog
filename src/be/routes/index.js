@@ -232,6 +232,23 @@ router.post('/api/storeCharts', function(req, res, next) {
         });
 });
 
+router.post('/api/queryCharts', function(req, res, next) {
+
+    chart.queryCharts(req.body)
+        .then((data) => {
+            res.json({
+                status: 0,
+                data: data
+            });
+        })
+        .catch((e) => {
+            res.json({
+                status: -1,
+                err: JSON.stringify(e)
+            });
+        });
+});
+
 const fs = require('fs');
 const path = require('path');
 const config = require('../config/settings');

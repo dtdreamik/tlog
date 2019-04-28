@@ -4,7 +4,8 @@ module.exports = {
         add: './src/fe/js/pages/add.js',
         analyse: './src/fe/js/pages/analyse.js',
         custom: './src/fe/js/pages/custom.js',
-        addchart: './src/fe/js/pages/addchart.js'
+        addchart: './src/fe/js/pages/addchart.js',
+        querychart: './src/fe/js/pages/querychart.js'
     },
     mode: 'development',
     module: {
