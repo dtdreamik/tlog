@@ -15,14 +15,18 @@ class Index extends React.Component {
                 {
                     this.props.charts.map((item) => {
                         return (
-                            <div>
+                            <div style={{
+                                marginBottom: 50
+                            }}>
                                 <div>{item.symbol}</div>
                                 <div>{item.date}</div>
                                 <div>
                                     {
                                         item.entry_strategies && item.entry_strategies.map(function(item) {
                                             return (
-                                                <span>{item.name}</span>
+                                                <span style={{
+                                                    marginRight: 50
+                                                }}>{item.name}</span>
                                             );
                                         })
                                     }
@@ -31,7 +35,9 @@ class Index extends React.Component {
                                     {
                                         item.tags && item.tags.map(function(item) {
                                             return (
-                                                <span>{item.name}</span>
+                                                <span style={{
+                                                    marginRight: 50
+                                                }}>{item.name}</span>
                                             );
                                         })
                                     }
@@ -44,6 +50,9 @@ class Index extends React.Component {
                                 <div><img src={item.path} style={{
                                     width: '100%'
                                 }}/></div>
+                                <div>
+                                    <a href={'/page/addchart.html?chartid=' + item.id}>edit</a>
+                                </div>
                             </div>
                         )
                     })

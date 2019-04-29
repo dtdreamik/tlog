@@ -22,7 +22,7 @@ class Index extends React.Component {
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={[this.props.target]}
-                    defaultOpenKeys={['tradeLog', 'analysis', 'myInfo']}
+                    defaultOpenKeys={['tradeLog', 'analysis', 'chartLib', 'myInfo']}
                     style={{ height: '100%', borderRight: 0 }}
                 >
                     <SubMenu key="tradeLog" title={<span><Icon type="user" />TradeLog</span>}>
@@ -30,12 +30,12 @@ class Index extends React.Component {
                         <Menu.Item key="add" onClick = {this.goTo('add')}>add</Menu.Item>
                     </SubMenu>
                     <SubMenu key="analysis" title={<span><Icon type="laptop" />Analysis</span>}>
-                        <Menu.Item key="5" onClick = {this.goTo('analyse')}>normal</Menu.Item>
-                        <Menu.Item key="5" onClick = {this.goTo('custom')}>custom</Menu.Item>
+                        <Menu.Item key="analyse" onClick = {this.goTo('analyse')}>normal</Menu.Item>
+                        <Menu.Item key="custom" onClick = {this.goTo('custom')}>custom</Menu.Item>
                     </SubMenu>
                     <SubMenu key="chartLib" title={<span><Icon type="laptop" />chartLib</span>}>
-                        <Menu.Item key="5" onClick = {this.goTo('addchart')}>add</Menu.Item>
-                        <Menu.Item key="5" onClick = {this.goTo('querychart')}>query</Menu.Item>
+                        <Menu.Item key="addchart" onClick = {this.goTo('addchart')}>add</Menu.Item>
+                        <Menu.Item key="querychart" onClick = {this.goTo('querychart')}>query</Menu.Item>
                     </SubMenu>
                     <SubMenu key="myInfo" title={<span><Icon type="notification" />MyInfo</span>}>
                         <Menu.Item key="9">accounts</Menu.Item>

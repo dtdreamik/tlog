@@ -6,29 +6,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import "antd/dist/antd.css";
 import "../../css/reset.css";
-
-import moment from "moment/moment";
 import axios from 'axios';
-
+import moment from 'moment';
 const { TextArea } = Input;
 const { Content } = Layout;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
+
+let dateFormat = 'YYYY-MM-DD';
 class AddChartForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             tags: [],
-            entryStrategies: []
+            entryStrategies: [],
+            chart: {
+                entry_strategies: [],
+                tags: []
+            }
         };
     }
 
     componentDidMount() {
 
-        Promise.all([axios.post('/api/getTags', {},
+        let proArr = [axios.post('/api/getTags', {},
             {
                 headers: {
                     'Content-type': 'application/json'
@@ -38,7 +42,25 @@ class AddChartForm extends React.Component {
                 headers: {
                     'Content-type': 'application/json'
                 }
-            })])
+            })];
+
+        let regres =/\?([^=]+)=([^=]+)/.exec(window.location.search);
+
+        if (regres && regres[1] && regres[2]) {
+            proArr.push(axios.post('/api/getChartById', {
+                    id: regres[2]
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+            );
+            this.id = regres[2];
+
+        }
+
+        Promise.all(proArr)
 
             .then((vals) => {
 
@@ -51,9 +73,15 @@ class AddChartForm extends React.Component {
                     }),
                     entryStrategies: vals[1].data.data.entryStrategies
                 }));
+
+                if (this.id) {
+                    this.setState(Object.assign(this.state, {
+                        chart: vals[2].data.data
+                    }));
+                }
             })
             .catch(function (error) {
-                alert(error);
+                alert('error ' + error);
             });
 
     }
@@ -77,6 +105,10 @@ class AddChartForm extends React.Component {
                 path,
                 entryStrategies: entryStrategies
             };
+
+            if (this.id) {
+                data.id = this.id;
+            }
             //debugger
 
             axios.post('/api/storeCharts', data,
@@ -86,7 +118,9 @@ class AddChartForm extends React.Component {
                     }
                 })
                 .then((response) => {
-                    this.setState(Object.assign(this.state,  response.data.data));
+                    alert('添加成功');
+                    window.location.reload();
+                    //this.setState(Object.assign(this.state,  response.data.data));
                 })
                 .catch(function (error) {
                     alert(error);
@@ -97,6 +131,7 @@ class AddChartForm extends React.Component {
     }
 
     render() {
+        let _this = this;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -118,10 +153,11 @@ class AddChartForm extends React.Component {
                 >
                     {getFieldDecorator('symbol', {
                         rules: [{ required: true, message: 'symbol 不能为空' }],
+                        initialValue:  this.state.chart.symbol
                     })(
                         <Input style={{
                             width: '200px'
-                        }}/>
+                        }} />
                     )}
                 </Form.Item>
 
@@ -130,6 +166,7 @@ class AddChartForm extends React.Component {
                 >
                     {getFieldDecorator('path', {
                         rules: [{ required: true, message: 'path 不能为空' }],
+                        initialValue: this.state.chart.path
                     })(
                         <Input style={{
                             width: '200px'
@@ -141,13 +178,19 @@ class AddChartForm extends React.Component {
                     {...formItemLayout}
                     label="date"
                 >
-                    {getFieldDecorator('date')(
-                        <DatePicker/>
+                    {getFieldDecorator('date',{
+                        initialValue: this.state.chart.date && moment(this.state.chart.date, dateFormat)
+                    })(
+                        <DatePicker format={dateFormat} />
                     )}
                 </FormItem>
 
                 <FormItem label="entry strategies" {...formItemLayout}>
-                    {getFieldDecorator('entryStrategies')(
+                    {getFieldDecorator('entryStrategies', {
+                        initialValue: this.state.chart.entry_strategies && this.state.chart.entry_strategies.map(function(item) {
+                            return item.id;
+                        })
+                    })(
                         <CheckboxGroup options={this.state.entryStrategies.map((item) => {
                             return {
                                 label: item.name,
@@ -161,7 +204,9 @@ class AddChartForm extends React.Component {
                     {...formItemLayout}
                     label="notes"
                 >
-                    {getFieldDecorator('notes')(
+                    {getFieldDecorator('notes', {
+                        initialValue: this.state.chart.notes
+                    })(
                         <TextArea rows={8} />
                     )}
                 </FormItem>
@@ -169,7 +214,11 @@ class AddChartForm extends React.Component {
                     {...formItemLayout}
                     label="tags"
                 >
-                    {getFieldDecorator('tags')(
+                    {getFieldDecorator('tags', {
+                        initialValue: this.state.chart.tags && this.state.chart.tags.map(function(item) {
+                            return item.id;
+                        })
+                    })(
                         <CheckboxGroup options={this.state.tags}  />
                     )}
                 </FormItem>
@@ -208,7 +257,7 @@ class App extends React.Component {
             <Layout>
                 <Header />
                 <Layout>
-                    <Navigator target={'add'}/>
+                    <Navigator target={'addchart'}/>
                     <Layout style={{ padding: '0 24px 24px' }}>
                         <AddChartFormlize />
                     </Layout>

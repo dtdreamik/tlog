@@ -103,7 +103,7 @@ class App extends React.Component {
             <Layout style={{paddingBottom: '50px'}}>
                 <Header />
                 <Layout>
-                    <Navigator target={'index'} />
+                    <Navigator target={'querychart'} />
                     <Layout style={{ paddingLeft: '5px' }}>
                         <QuerychartForm onHandleSubmit={this.handleSubmit}
                                      entryStrategies={this.state.entryStrategies}
